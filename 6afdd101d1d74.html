@@ -1,0 +1,3448 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>客服</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>(function () {
+    var LANGS = [
+        ['zh-CN', '简体中文'], ['zh-TW', '繁體中文'], ['en', 'English'], ['ja', '日本語'], ['ko', '한국어'],
+        ['es', 'Español'], ['pt', 'Português'], ['tr', 'Türkçe'], ['ar', 'العربية'], ['th', 'ไทย'],
+        ['vi', 'Tiếng Việt'], ['de', 'Deutsch'], ['it', 'Italiano'], ['ru', 'Русский']
+    ];
+    // 列顺序：zh-TW, en, ja, ko, es, pt, tr, ar, th, vi, de, it, ru
+    var COLS = ['zh-TW', 'en', 'ja', 'ko', 'es', 'pt', 'tr', 'ar', 'th', 'vi', 'de', 'it', 'ru'];
+    var D = {
+        '客服': ['客服', 'Support', 'サポート', '고객센터', 'Soporte', 'Suporte', 'Destek', 'الدعم', 'ฝ่ายบริการ', 'Hỗ trợ', 'Support', 'Assistenza', 'Поддержка'],
+        '在线客服': ['線上客服', 'Online Support', 'オンラインサポート', '온라인 상담', 'Soporte en línea', 'Suporte online', 'Canlı Destek', 'الدعم المباشر', 'บริการออนไลน์', 'Hỗ trợ trực tuyến', 'Online-Support', 'Assistenza online', 'Онлайн-поддержка'],
+        '哎呀，页面走丢了！': ['哎呀，頁面走丟了！', 'Oops, page not found!', 'ページが見つかりません！', '페이지를 찾을 수 없습니다!', '¡Ups, página no encontrada!', 'Ops, página não encontrada!', 'Hata, sayfa bulunamadı!', 'عذرًا، الصفحة غير موجودة!', 'ขออภัย ไม่พบหน้านี้!', 'Rất tiếc, không tìm thấy trang!', 'Hoppla, Seite nicht gefunden!', 'Ops, pagina non trovata!', 'Упс, страница не найдена!'],
+        '声音开关': ['聲音開關', 'Sound on/off', 'サウンド切替', '소리 켜기/끄기', 'Sonido', 'Som', 'Ses aç/kapat', 'تشغيل/إيقاف الصوت', 'เปิด/ปิดเสียง', 'Bật/tắt âm thanh', 'Ton ein/aus', 'Audio on/off', 'Звук вкл/выкл'],
+        '语言': ['語言', 'Language', '言語', '언어', 'Idioma', 'Idioma', 'Dil', 'اللغة', 'ภาษา', 'Ngôn ngữ', 'Sprache', 'Lingua', 'Язык'],
+        '查看更多消息': ['查看更多訊息', 'Load more messages', '以前のメッセージを表示', '이전 메시지 더보기', 'Ver más mensajes', 'Ver mais mensagens', 'Daha fazla mesaj', 'عرض المزيد من الرسائل', 'ดูข้อความเพิ่มเติม', 'Xem thêm tin nhắn', 'Weitere Nachrichten', 'Mostra altri messaggi', 'Ещё сообщения'],
+        '表情': ['表情', 'Emoji', '絵文字', '이모티콘', 'Emoji', 'Emoji', 'Emoji', 'رموز تعبيرية', 'อีโมจิ', 'Biểu tượng cảm xúc', 'Emoji', 'Emoji', 'Эмодзи'],
+        '发送图片': ['傳送圖片', 'Send image', '画像を送信', '이미지 보내기', 'Enviar imagen', 'Enviar imagem', 'Resim gönder', 'إرسال صورة', 'ส่งรูปภาพ', 'Gửi hình ảnh', 'Bild senden', 'Invia immagine', 'Отправить фото'],
+        '发送视频': ['傳送影片', 'Send video', '動画を送信', '동영상 보내기', 'Enviar video', 'Enviar vídeo', 'Video gönder', 'إرسال فيديو', 'ส่งวิดีโอ', 'Gửi video', 'Video senden', 'Invia video', 'Отправить видео'],
+        '发送文件': ['傳送檔案', 'Send file', 'ファイルを送信', '파일 보내기', 'Enviar archivo', 'Enviar arquivo', 'Dosya gönder', 'إرسال ملف', 'ส่งไฟล์', 'Gửi tệp', 'Datei senden', 'Invia file', 'Отправить файл'],
+        '评价': ['評價', 'Rate', '評価', '평가', 'Valorar', 'Avaliar', 'Değerlendir', 'تقييم', 'ให้คะแนน', 'Đánh giá', 'Bewerten', 'Valuta', 'Оценить'],
+        '转人工': ['轉人工', 'Human agent', '有人対応へ', '상담원 연결', 'Agente humano', 'Atendente humano', 'Canlı temsilci', 'موظف بشري', 'ติดต่อเจ้าหน้าที่', 'Gặp nhân viên', 'Mitarbeiter', 'Operatore', 'Оператор'],
+        '请输入': ['請輸入', 'Type a message', 'メッセージを入力', '메시지를 입력하세요', 'Escribe un mensaje', 'Digite uma mensagem', 'Mesaj yazın', 'اكتب رسالة', 'พิมพ์ข้อความ', 'Nhập tin nhắn', 'Nachricht eingeben', 'Scrivi un messaggio', 'Введите сообщение'],
+        '请输入文字': ['請輸入文字', 'Type a message', 'メッセージを入力', '메시지를 입력하세요', 'Escribe un mensaje', 'Digite uma mensagem', 'Mesaj yazın', 'اكتب رسالة', 'พิมพ์ข้อความ', 'Nhập tin nhắn', 'Nachricht eingeben', 'Scrivi un messaggio', 'Введите сообщение'],
+        '发送': ['傳送', 'Send', '送信', '보내기', 'Enviar', 'Enviar', 'Gönder', 'إرسال', 'ส่ง', 'Gửi', 'Senden', 'Invia', 'Отправить'],
+        '为了给您提供更好的服务，请您填写如下信息。': ['為了給您提供更好的服務，請您填寫以下資訊。', 'To serve you better, please fill in the following information.', 'より良いサービスのため、以下の情報をご記入ください。', '더 나은 서비스를 위해 아래 정보를 입력해 주세요.', 'Para atenderle mejor, complete la siguiente información.', 'Para atendê-lo melhor, preencha as informações abaixo.', 'Size daha iyi hizmet verebilmemiz için lütfen aşağıdaki bilgileri doldurun.', 'لخدمتك بشكل أفضل، يرجى ملء المعلومات التالية.', 'เพื่อการบริการที่ดียิ่งขึ้น กรุณากรอกข้อมูลต่อไปนี้', 'Để phục vụ bạn tốt hơn, vui lòng điền các thông tin sau.', 'Um Ihnen besser helfen zu können, füllen Sie bitte die folgenden Angaben aus.', 'Per servirti meglio, compila le seguenti informazioni.', 'Чтобы мы могли помочь вам лучше, заполните, пожалуйста, следующие данные.'],
+        '提交': ['提交', 'Submit', '送信', '제출', 'Enviar', 'Enviar', 'Gönder', 'إرسال', 'ส่ง', 'Gửi', 'Absenden', 'Invia', 'Отправить'],
+        '评价客服': ['評價客服', 'Rate our service', 'サービスを評価', '상담 평가', 'Valore nuestro servicio', 'Avalie nosso atendimento', 'Hizmetimizi değerlendirin', 'قيّم خدمتنا', 'ให้คะแนนการบริการ', 'Đánh giá dịch vụ', 'Service bewerten', 'Valuta il servizio', 'Оцените обслуживание'],
+        '非常不满意': ['非常不滿意', 'Very dissatisfied', '非常に不満', '매우 불만족', 'Muy insatisfecho', 'Muito insatisfeito', 'Hiç memnun değilim', 'غير راضٍ إطلاقًا', 'ไม่พอใจมาก', 'Rất không hài lòng', 'Sehr unzufrieden', 'Molto insoddisfatto', 'Очень недоволен'],
+        '不满意': ['不滿意', 'Dissatisfied', '不満', '불만족', 'Insatisfecho', 'Insatisfeito', 'Memnun değilim', 'غير راضٍ', 'ไม่พอใจ', 'Không hài lòng', 'Unzufrieden', 'Insoddisfatto', 'Недоволен'],
+        '一般': ['一般', 'Neutral', '普通', '보통', 'Normal', 'Regular', 'Orta', 'عادي', 'เฉยๆ', 'Bình thường', 'Neutral', 'Nella media', 'Нормально'],
+        '满意': ['滿意', 'Satisfied', '満足', '만족', 'Satisfecho', 'Satisfeito', 'Memnunum', 'راضٍ', 'พอใจ', 'Hài lòng', 'Zufrieden', 'Soddisfatto', 'Доволен'],
+        '非常满意': ['非常滿意', 'Very satisfied', '非常に満足', '매우 만족', 'Muy satisfecho', 'Muito satisfeito', 'Çok memnunum', 'راضٍ جدًا', 'พอใจมาก', 'Rất hài lòng', 'Sehr zufrieden', 'Molto soddisfatto', 'Очень доволен'],
+        '请留下您的宝贵意见': ['請留下您的寶貴意見', 'Please leave your feedback', 'ご意見をお聞かせください', '소중한 의견을 남겨 주세요', 'Déjenos su opinión', 'Deixe sua opinião', 'Lütfen görüşlerinizi bırakın', 'يرجى ترك ملاحظاتك', 'กรุณาแสดงความคิดเห็น', 'Vui lòng để lại ý kiến của bạn', 'Bitte hinterlassen Sie Ihr Feedback', 'Lascia il tuo feedback', 'Оставьте ваш отзыв'],
+        '离线留言': ['離線留言', 'Leave a message', 'メッセージを残す', '메시지 남기기', 'Dejar un mensaje', 'Deixar mensagem', 'Mesaj bırakın', 'اترك رسالة', 'ฝากข้อความ', 'Để lại lời nhắn', 'Nachricht hinterlassen', 'Lascia un messaggio', 'Оставить сообщение'],
+        '称呼': ['稱呼', 'Your name', 'お名前', '이름', 'Su nombre', 'Seu nome', 'Adınız', 'اسمك', 'ชื่อของคุณ', 'Tên của bạn', 'Ihr Name', 'Il tuo nome', 'Ваше имя'],
+        '手机号': ['手機號碼', 'Phone number', '電話番号', '전화번호', 'Teléfono', 'Telefone', 'Telefon numarası', 'رقم الهاتف', 'เบอร์โทรศัพท์', 'Số điện thoại', 'Telefonnummer', 'Numero di telefono', 'Номер телефона'],
+        '请留下您的意见': ['請留下您的意見', 'Your message', 'メッセージ内容', '내용을 입력하세요', 'Su mensaje', 'Sua mensagem', 'Mesajınız', 'رسالتك', 'ข้อความของคุณ', 'Nội dung lời nhắn', 'Ihre Nachricht', 'Il tuo messaggio', 'Ваше сообщение'],
+        '请点击右上角': ['請點擊右上角', 'Tap the menu in the top-right corner', '右上のメニューをタップし', '오른쪽 상단 메뉴를 눌러', 'Toque el menú superior derecho', 'Toque no menu superior direito', 'Sağ üstteki menüye dokunun', 'اضغط على القائمة في الأعلى', 'แตะเมนูมุมขวาบน', 'Nhấn menu ở góc trên bên phải', 'Tippen Sie oben rechts auf das Menü', 'Tocca il menu in alto a destra', 'Нажмите меню в правом верхнем углу'],
+        '选择在浏览器中打开': ['選擇在瀏覽器中開啟', 'and choose Open in Browser', '「ブラウザで開く」を選択してください', '브라우저에서 열기를 선택하세요', 'y elija Abrir en el navegador', 'e escolha Abrir no navegador', 've Tarayıcıda aç seçeneğini seçin', 'واختر الفتح في المتصفح', 'แล้วเลือกเปิดในเบราว์เซอร์', 'và chọn Mở bằng trình duyệt', 'und wählen Sie Im Browser öffnen', 'e scegli Apri nel browser', 'и выберите «Открыть в браузере»'],
+        '连接中...': ['連線中...', 'Connecting...', '接続中...', '연결 중...', 'Conectando...', 'Conectando...', 'Bağlanıyor...', 'جارٍ الاتصال...', 'กำลังเชื่อมต่อ...', 'Đang kết nối...', 'Verbinden...', 'Connessione...', 'Подключение...'],
+        '重连中...': ['重新連線中...', 'Reconnecting...', '再接続中...', '재연결 중...', 'Reconectando...', 'Reconectando...', 'Yeniden bağlanıyor...', 'جارٍ إعادة الاتصال...', 'กำลังเชื่อมต่อใหม่...', 'Đang kết nối lại...', 'Neu verbinden...', 'Riconnessione...', 'Переподключение...'],
+        '我': ['我', 'Me', '自分', '나', 'Yo', 'Eu', 'Ben', 'أنا', 'ฉัน', 'Tôi', 'Ich', 'Io', 'Я'],
+        '客服不在线': ['客服不在線', 'Support is offline', 'サポートはオフラインです', '상담원이 오프라인입니다', 'Soporte fuera de línea', 'Suporte offline', 'Destek çevrimdışı', 'الدعم غير متصل', 'เจ้าหน้าที่ออฟไลน์', 'Nhân viên đang ngoại tuyến', 'Support ist offline', 'Assistenza offline', 'Поддержка не в сети'],
+        '留言': ['留言', 'Leave a message', 'メッセージを残す', '메시지 남기기', 'Dejar mensaje', 'Deixar mensagem', 'Mesaj bırak', 'اترك رسالة', 'ฝากข้อความ', 'Để lại lời nhắn', 'Nachricht hinterlassen', 'Lascia un messaggio', 'Оставить сообщение'],
+        '智能客服': ['智慧客服', 'Smart Assistant', 'AIアシスタント', 'AI 상담원', 'Asistente virtual', 'Assistente virtual', 'Akıllı Asistan', 'المساعد الذكي', 'ผู้ช่วยอัจฉริยะ', 'Trợ lý thông minh', 'Smarter Assistent', 'Assistente virtuale', 'Умный помощник'],
+        '您好，有什么可以帮助您？': ['您好，有什麼可以幫助您？', 'Hello, how can I help you?', 'こんにちは、ご用件をお伺いします。', '안녕하세요, 무엇을 도와드릴까요?', 'Hola, ¿en qué puedo ayudarle?', 'Olá, como posso ajudar?', 'Merhaba, size nasıl yardımcı olabilirim?', 'مرحبًا، كيف يمكنني مساعدتك؟', 'สวัสดีค่ะ มีอะไรให้ช่วยไหมคะ?', 'Xin chào, tôi có thể giúp gì cho bạn?', 'Hallo, wie kann ich Ihnen helfen?', 'Ciao, come posso aiutarti?', 'Здравствуйте, чем могу помочь?'],
+        '{n}为您服务': ['{n}為您服務', '{n} is here to help you', '{n}が対応いたします', '{n}이(가) 도와드립니다', '{n} le atenderá', '{n} irá atendê-lo', '{n} size yardımcı olacak', '{n} في خدمتك', '{n} ยินดีให้บริการ', '{n} sẽ hỗ trợ bạn', '{n} hilft Ihnen gerne', '{n} è a tua disposizione', '{n} поможет вам'],
+        '您可能想问：': ['您可能想問：', 'You may want to ask:', 'よくある質問：', '자주 묻는 질문:', 'Quizás quiera preguntar:', 'Talvez você queira perguntar:', 'Şunları sormak isteyebilirsiniz:', 'ربما تريد أن تسأل:', 'คุณอาจต้องการถาม:', 'Có thể bạn muốn hỏi:', 'Häufige Fragen:', 'Potresti voler chiedere:', 'Возможно, вы хотите спросить:'],
+        '无效参数': ['無效參數', 'Invalid parameters', '無効なパラメータ', '잘못된 매개변수', 'Parámetros no válidos', 'Parâmetros inválidos', 'Geçersiz parametre', 'معلمات غير صالحة', 'พารามิเตอร์ไม่ถูกต้อง', 'Tham số không hợp lệ', 'Ungültige Parameter', 'Parametri non validi', 'Неверные параметры'],
+        '暂无客服在线，请留言': ['暫無客服在線，請留言', 'No agents online, please leave a message', '現在対応できるスタッフがいません。メッセージを残してください', '현재 상담원이 없습니다. 메시지를 남겨 주세요', 'No hay agentes disponibles, deje un mensaje', 'Nenhum atendente online, deixe uma mensagem', 'Çevrimiçi temsilci yok, lütfen mesaj bırakın', 'لا يوجد موظفون متصلون، يرجى ترك رسالة', 'ไม่มีเจ้าหน้าที่ออนไลน์ กรุณาฝากข้อความ', 'Hiện không có nhân viên trực tuyến, vui lòng để lại lời nhắn', 'Kein Mitarbeiter online, bitte hinterlassen Sie eine Nachricht', 'Nessun operatore online, lascia un messaggio', 'Нет операторов в сети, оставьте сообщение'],
+        '分配客服中...': ['分配客服中...', 'Connecting you to an agent...', '担当者に接続中...', '상담원 연결 중...', 'Asignando un agente...', 'Atribuindo um atendente...', 'Temsilci atanıyor...', 'جارٍ تعيين موظف...', 'กำลังหาเจ้าหน้าที่...', 'Đang kết nối nhân viên...', 'Mitarbeiter wird zugewiesen...', 'Assegnazione operatore...', 'Подбираем оператора...'],
+        '暂无可用客服，请稍后再试': ['暫無可用客服，請稍後再試', 'No agents available, please try again later', '対応可能なスタッフがいません。後ほどお試しください', '상담 가능한 상담원이 없습니다. 잠시 후 다시 시도해 주세요', 'No hay agentes disponibles, inténtelo más tarde', 'Nenhum atendente disponível, tente mais tarde', 'Uygun temsilci yok, lütfen daha sonra tekrar deneyin', 'لا يوجد موظفون متاحون، يرجى المحاولة لاحقًا', 'ไม่มีเจ้าหน้าที่ว่าง กรุณาลองใหม่ภายหลัง', 'Không có nhân viên rảnh, vui lòng thử lại sau', 'Kein Mitarbeiter verfügbar, bitte später erneut versuchen', 'Nessun operatore disponibile, riprova più tardi', 'Нет свободных операторов, попробуйте позже'],
+        '访问过于频繁，请稍后再试': ['存取過於頻繁，請稍後再試', 'Too many requests, please try again later', 'アクセスが多すぎます。後ほどお試しください', '요청이 너무 많습니다. 잠시 후 다시 시도해 주세요', 'Demasiadas solicitudes, inténtelo más tarde', 'Muitas solicitações, tente mais tarde', 'Çok fazla istek, lütfen daha sonra tekrar deneyin', 'طلبات كثيرة جدًا، يرجى المحاولة لاحقًا', 'มีการเข้าถึงบ่อยเกินไป กรุณาลองใหม่ภายหลัง', 'Truy cập quá thường xuyên, vui lòng thử lại sau', 'Zu viele Anfragen, bitte später erneut versuchen', 'Troppe richieste, riprova più tardi', 'Слишком много запросов, попробуйте позже'],
+        '服务不可用': ['服務不可用', 'Service unavailable', 'サービスを利用できません', '서비스를 사용할 수 없습니다', 'Servicio no disponible', 'Serviço indisponível', 'Hizmet kullanılamıyor', 'الخدمة غير متاحة', 'บริการไม่พร้อมใช้งาน', 'Dịch vụ không khả dụng', 'Dienst nicht verfügbar', 'Servizio non disponibile', 'Сервис недоступен'],
+        '消息发送失败': ['訊息傳送失敗', 'Failed to send message', '送信に失敗しました', '메시지 전송 실패', 'No se pudo enviar el mensaje', 'Falha ao enviar mensagem', 'Mesaj gönderilemedi', 'فشل إرسال الرسالة', 'ส่งข้อความไม่สำเร็จ', 'Gửi tin nhắn thất bại', 'Senden fehlgeschlagen', 'Invio non riuscito', 'Не удалось отправить сообщение'],
+        '文件下载': ['檔案下載', 'File download', 'ファイル', '파일 다운로드', 'Descargar archivo', 'Baixar arquivo', 'Dosya indir', 'تنزيل الملف', 'ดาวน์โหลดไฟล์', 'Tải tệp', 'Datei-Download', 'Scarica file', 'Скачать файл'],
+        '点击下载': ['點擊下載', 'Click to download', 'クリックしてダウンロード', '클릭하여 다운로드', 'Clic para descargar', 'Clique para baixar', 'İndirmek için tıklayın', 'انقر للتنزيل', 'คลิกเพื่อดาวน์โหลด', 'Nhấn để tải', 'Zum Herunterladen klicken', 'Clicca per scaricare', 'Нажмите, чтобы скачать'],
+        '对话异常': ['對話異常', 'Conversation error', '会話エラー', '대화 오류', 'Error en la conversación', 'Erro na conversa', 'Görüşme hatası', 'خطأ في المحادثة', 'การสนทนาผิดพลาด', 'Lỗi cuộc trò chuyện', 'Gesprächsfehler', 'Errore di conversazione', 'Ошибка диалога'],
+        '服务异常': ['服務異常', 'Service error', 'サービスエラー', '서비스 오류', 'Error del servicio', 'Erro no serviço', 'Hizmet hatası', 'خطأ في الخدمة', 'บริการผิดพลาด', 'Lỗi dịch vụ', 'Dienstfehler', 'Errore del servizio', 'Ошибка сервиса'],
+        '上传中...': ['上傳中...', 'Uploading...', 'アップロード中...', '업로드 중...', 'Subiendo...', 'Enviando...', 'Yükleniyor...', 'جارٍ الرفع...', 'กำลังอัปโหลด...', 'Đang tải lên...', 'Hochladen...', 'Caricamento...', 'Загрузка...'],
+        '上传失败': ['上傳失敗', 'Upload failed', 'アップロード失敗', '업로드 실패', 'Error al subir', 'Falha no envio', 'Yükleme başarısız', 'فشل الرفع', 'อัปโหลดไม่สำเร็จ', 'Tải lên thất bại', 'Hochladen fehlgeschlagen', 'Caricamento non riuscito', 'Ошибка загрузки'],
+        '图片': ['圖片', 'Images', '画像', '이미지', 'Imágenes', 'Imagens', 'Resimler', 'صور', 'รูปภาพ', 'Hình ảnh', 'Bilder', 'Immagini', 'Изображения'],
+        '感谢您的评价': ['感謝您的評價', 'Thank you for your feedback', 'ご評価ありがとうございます', '평가해 주셔서 감사합니다', 'Gracias por su valoración', 'Obrigado pela avaliação', 'Değerlendirmeniz için teşekkürler', 'شكرًا على تقييمك', 'ขอบคุณสำหรับการให้คะแนน', 'Cảm ơn bạn đã đánh giá', 'Danke für Ihre Bewertung', 'Grazie per la valutazione', 'Спасибо за оценку'],
+        '暂无客服服务，无法评价': ['暫無客服服務，無法評價', 'No agent has served you yet, rating unavailable', '対応したスタッフがいないため評価できません', '상담 내역이 없어 평가할 수 없습니다', 'Aún no ha sido atendido, no puede valorar', 'Você ainda não foi atendido, não é possível avaliar', 'Henüz hizmet alınmadı, değerlendirme yapılamaz', 'لم تتم خدمتك بعد، لا يمكن التقييم', 'ยังไม่มีเจ้าหน้าที่ให้บริการ ไม่สามารถให้คะแนนได้', 'Chưa có nhân viên phục vụ, không thể đánh giá', 'Noch kein Mitarbeiter, Bewertung nicht möglich', 'Nessun operatore ti ha ancora servito, impossibile valutare', 'Вас ещё не обслужили, оценка недоступна'],
+        '请输入正确的手机号,方便我们反馈。': ['請輸入正確的手機號碼，方便我們回覆。', 'Please enter a valid phone number so we can reply.', '返信のため正しい電話番号を入力してください。', '회신을 위해 올바른 전화번호를 입력해 주세요.', 'Introduzca un teléfono válido para poder responderle.', 'Informe um telefone válido para que possamos responder.', 'Size dönebilmemiz için geçerli bir telefon numarası girin.', 'يرجى إدخال رقم هاتف صحيح لنتمكن من الرد.', 'กรุณากรอกเบอร์โทรที่ถูกต้องเพื่อให้เราติดต่อกลับ', 'Vui lòng nhập số điện thoại hợp lệ để chúng tôi phản hồi.', 'Bitte geben Sie eine gültige Telefonnummer ein, damit wir antworten können.', 'Inserisci un numero di telefono valido per ricevere risposta.', 'Введите правильный номер телефона, чтобы мы могли ответить.'],
+        '留言成功': ['留言成功', 'Message sent', '送信しました', '메시지가 전송되었습니다', 'Mensaje enviado', 'Mensagem enviada', 'Mesaj gönderildi', 'تم إرسال الرسالة', 'ฝากข้อความสำเร็จ', 'Đã gửi lời nhắn', 'Nachricht gesendet', 'Messaggio inviato', 'Сообщение отправлено'],
+        '留言失败': ['留言失敗', 'Failed to send message', '送信に失敗しました', '메시지 전송 실패', 'Error al enviar el mensaje', 'Falha ao enviar mensagem', 'Mesaj gönderilemedi', 'فشل إرسال الرسالة', 'ฝากข้อความไม่สำเร็จ', 'Gửi lời nhắn thất bại', 'Nachricht fehlgeschlagen', 'Invio non riuscito', 'Не удалось отправить'],
+        '客服暂时离开': ['客服暫時離開', 'The agent is temporarily away', '担当者は一時離席中です', '상담원이 잠시 자리를 비웠습니다', 'El agente está ausente temporalmente', 'O atendente está ausente no momento', 'Temsilci geçici olarak uzakta', 'الموظف غير متواجد مؤقتًا', 'เจ้าหน้าที่ไม่อยู่ชั่วคราว', 'Nhân viên tạm thời vắng mặt', 'Der Mitarbeiter ist vorübergehend abwesend', "L'operatore è momentaneamente assente", 'Оператор временно отошёл'],
+        '您确定要离开吗？': ['您確定要離開嗎？', 'Are you sure you want to leave?', '退出してもよろしいですか？', '정말 나가시겠습니까?', '¿Seguro que desea salir?', 'Tem certeza de que deseja sair?', 'Ayrılmak istediğinizden emin misiniz?', 'هل أنت متأكد أنك تريد المغادرة؟', 'คุณแน่ใจหรือไม่ว่าต้องการออก?', 'Bạn có chắc muốn rời đi?', 'Möchten Sie wirklich gehen?', 'Sei sicuro di voler uscire?', 'Вы уверены, что хотите выйти?'],
+        '缺少商户参数，请使用正确的链接访问': ['缺少商戶參數，請使用正確的連結訪問', 'Missing merchant parameter, please use the correct link', '加盟店パラメータがありません。正しいリンクを使用してください', '판매자 매개변수가 없습니다. 올바른 링크를 사용하세요', 'Falta el parámetro del comercio, use el enlace correcto', 'Parâmetro do comerciante ausente, use o link correto', 'Satıcı parametresi eksik, lütfen doğru bağlantıyı kullanın', 'معلمة التاجر مفقودة، يرجى استخدام الرابط الصحيح', 'ไม่มีพารามิเตอร์ร้านค้า กรุณาใช้ลิงก์ที่ถูกต้อง', 'Thiếu tham số cửa hàng, vui lòng dùng đúng liên kết', 'Händlerparameter fehlt, bitte den richtigen Link verwenden', 'Parametro commerciante mancante, usa il link corretto', 'Отсутствует параметр продавца, используйте правильную ссылку']
+    };
+
+    var KEY = 'user_uiLang';
+    var codes = LANGS.map(function (l) { return l[0]; });
+
+
+    function sellerCodeFromLocation() {
+        try {
+            var q = new URLSearchParams(location.search).get('s');
+            if (q) return q;
+            var parts = location.pathname.split('/').filter(function (p) { return p.length > 0; });
+            var last = (parts[parts.length - 1] || '').replace(/\.html?$/i, '');
+            if (/^[0-9a-zA-Z]{8,24}$/.test(last)) return last;
+        } catch (e) {}
+        return '';
+    }
+
+    function detect() {
+        try {
+            var q = new URLSearchParams(location.search).get('lang');
+            if (q && codes.indexOf(q) > -1) return q;
+        } catch (e) {}
+        try {
+            var sid = sellerCodeFromLocation();
+            if (sid) {
+                var cached = sessionStorage.getItem('kefu_vlang_' + sid);
+                if (cached && codes.indexOf(cached) > -1) return cached;
+            }
+        } catch (e) {}
+        try {
+            var saved = localStorage.getItem(KEY);
+            if (saved && codes.indexOf(saved) > -1) return saved;
+        } catch (e) {}
+        var nav = String((navigator.languages && navigator.languages[0]) || navigator.language || 'zh-CN').toLowerCase();
+        if (/^zh-(tw|hk|mo|hant)/.test(nav)) return 'zh-TW';
+        if (nav.indexOf('zh') === 0) return 'zh-CN';
+        var p = nav.split('-')[0];
+        return codes.indexOf(p) > -1 ? p : 'en';
+    }
+
+    var lang = detect();
+    var listeners = [];
+
+    function T(zh) {
+        if (zh === undefined || zh === null || lang === 'zh-CN') return zh;
+        var row = D[String(zh).trim()];
+        if (!row) return zh;
+        return row[COLS.indexOf(lang)] || zh;
+    }
+
+    function trSys(text) {
+        if (!text || lang === 'zh-CN') return text;
+        var t = T(text);
+        if (t !== text) return t;
+        var s = String(text);
+        if (s.length > 4 && s.slice(-4) === '为您服务') {
+            return T('{n}为您服务').replace('{n}', T(s.slice(0, -4)));
+        }
+        return text;
+    }
+
+    function applyStatic(root) {
+        root = root || document;
+        var i, els;
+        els = root.querySelectorAll('[data-zh]');
+        for (i = 0; i < els.length; i++) els[i].textContent = T(els[i].getAttribute('data-zh'));
+        els = root.querySelectorAll('[data-zh-ph]');
+        for (i = 0; i < els.length; i++) els[i].placeholder = T(els[i].getAttribute('data-zh-ph'));
+        els = root.querySelectorAll('[data-zh-title]');
+        for (i = 0; i < els.length; i++) els[i].title = T(els[i].getAttribute('data-zh-title'));
+    }
+
+    function setText(el, zh) {
+        if (!el) return;
+        el.setAttribute('data-zh', zh == null ? '' : zh);
+        el.textContent = T(zh);
+    }
+
+    function setPlaceholder(el, zh) {
+        if (!el) return;
+        el.setAttribute('data-zh-ph', zh == null ? '' : zh);
+        el.placeholder = T(zh);
+    }
+
+    function setLang(code, remember) {
+        if (codes.indexOf(code) < 0) return;
+        var keep = remember !== false;
+        if (code === lang) {
+            if (keep) {
+                try { localStorage.setItem(KEY, code); } catch (e) {}
+            }
+            return;
+        }
+        lang = code;
+        if (keep) {
+            try { localStorage.setItem(KEY, code); } catch (e) {}
+        }
+        document.documentElement.lang = code;
+        applyStatic();
+        listeners.forEach(function (fn) { try { fn(code); } catch (e) {} });
+    }
+
+    document.documentElement.lang = lang;
+
+    window.KefuI18n = {
+        langs: LANGS,
+        T: T,
+        trSys: trSys,
+        applyStatic: applyStatic,
+        setText: setText,
+        setPlaceholder: setPlaceholder,
+        setLang: setLang,
+        getLang: function () { return lang; },
+        onChange: function (fn) { listeners.push(fn); }
+    };
+})();
+</script>
+    <script>
+    (function () {
+        function sellerCodeFromLocation() {
+            try {
+                var q = new URLSearchParams(location.search).get('s');
+                if (q) return q;
+                var parts = location.pathname.split('/').filter(function (p) { return p.length > 0; });
+                var last = (parts[parts.length - 1] || '').replace(/\.html?$/i, '');
+                if (/^[0-9a-zA-Z]{8,24}$/.test(last)) return last;
+            } catch (e) {}
+            return '';
+        }
+        var sid = sellerCodeFromLocation();
+        var cached = '';
+        try {
+            if (sid) cached = sessionStorage.getItem('kefu_vlang_' + sid) || '';
+        } catch (e) {}
+        if (cached && window.KefuI18n) {
+            KefuI18n.setLang(cached, false);
+        } else {
+            document.documentElement.classList.add('i18n-pending');
+        }
+    })();
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            width: 100%; height: 100%; overflow: hidden;
+            font-size: 13px;
+            font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        }
+        body { transform: translateY(0px); zoom: 1; }
+        html.i18n-pending #app { opacity: 0; pointer-events: none; }
+
+
+        @font-face {
+            font-family: iconfont;
+            src: url(data:font/woff2;base64,d09GMgABAAAAAA24AAsAAAAAGWgAAA1qAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHFQGYACFUgqhBJl0ATYCJANUCywABCAFhGcHgjkb5xSzEVUjGCltsv/ygBsywQ8ywSQxnbbbNPp9se1UOiCHHGXKBl4juJ8IyhbBdHiJdEViD3eJC+/9UEqIaL/f7Nl3a6glEe0aCqGbJMh4JyRCJ5GhquU3PH+zF4fqh+0PbE0NTAMb6AaqRhyA7jzwQNWpHVEDBICVBR3c27KEE0/YYgBjE++y+drMH9h+g9YZCPliEWriQE1s5src+hgIYdfx1ERCcrr2mq5EpKaoYuW1b722GY4sZA9Z8Pl71tpXt1BMGy2R2go2u3My+GK+iFoiciSI4iHdHqKSeKTLRC2BkCiRHH/8oURzbqYdT7ohFR0ZymY5xLyYFtje5DoIEKSFE+Swp384gFZTygqAGjSWrkBaV1azM1OArBiLaXAV/GrXdVsD5CgYUAdcBIDD8O3lFVgnC1BYDayDzPM80sG86IBYiGr6JoC+Az4/XQdmeQVYQAMNG4uX2+aUG4CKoSEUg6SmaC4BikilL/VwQCQUXRBdEd0W3RU9FL0UK4rVxeVioVQK2fypW4n4YE+s0YSibU777zw6QJoCCjIicRABgoQIE8GPxmBx+BAUiAMYGYYrFtI3Ee7yKQpBpIAXQCSBV0AkgLdBxIB3QcSBD0FEgU9BBIDPQASBz0GEgC9AhIEvEYIIPCoSfqA6CA0sAWGApSAssAyEA5aD8AEPghCgEPzTnAIZf5s6gC7ATgLgdmKpTkNR25KgXNC+ypY4gNNF+zwVSqWR0jK0keDlYLwSVUsFVlFiw7CinBwJgpQI8hYEOgyjLLQNtOTklOTlW9Q1EXIYKp4EkXDWCt4md+oiQE8Uk+O0pipnfPprZW+SMA24wncj0H/alomxxkGWbzjQ53e3WcQ9FDqzK2hMKqLexXYZfOoyg5/1sThumduc3OOMD38sH3IEWBSPUkUKn3dkK8wa+xt49pAiO40Cc4xc54ZVdoXEgtqFOgAdQtHsVUgMlhtJWAFFaw21KhekpS5kWd0F67UHXdWNPEQPuK7GI/z4WCdU8gJxI2d8Yxj8nec32aHvbKBIUDXqlCKypKvmWFnSMt2aTgFqy2wC123ZVhl+ZmXzlhg9MPps3WzeuJU0t0jbtib4MTkFuneJj798n1fQQgLvpqg6ymvZRKpcx9f6WHgs+FpxiEWmFyRlV3pcx7UJFpZ2kRUTYFcZ09lQBbz1bM24o5yQsmIFXgkARCmx7em5HQOgVw2eVBjGzUWSU569OzWNgOjQSemOLodbQR3hQtWoDbBcAuOP5HNfO9xIRY6a6i5RySnyEHQ6vcbMT/gxf0DV1aUA3harNljZ1TABu0xTVgO2xG4jZcjyzbuQu1BbzyLKs/WVuL1ddEs84AOY4Jjf25FhE0AZgX/Z35EBEpabglDKeTmhs5Fk2x7sMg9H3u7r/i+1f5++mVDAItOwSBvZm0C134VpwjBOEFgE59DakipIqxhLtPwZiZ3/d3HWSsQgosQ6qqZu+zr6bl+pIoV5fyvJTsZUhGjGK73WEP9fe6Vj/4sNBl9cZnCGYKoBghT6ef8hQI6Jkk2sxrTXatrXwVf/EFAxy2Y6hkyS8G5a+8ZUYm7PfnuM5LudnjOqk54ANPjqfHVZ3oc+T6Qyg+t1/QLU6vOdvQdPedZ2sypKU54U7aKmPx54eWOdwPMaPq58yhLL2XKfWcGOYqmYZW2bpOBxyxjmKXalTFNTABdkBzKRQnyjFEPhWR7BtSF0ZAqhlzMFBpvA3KVHOjMs8tH5AzfvRbazlshMy4g9ntb9vYH2FehRC393T5F0AaA8y0/gCt+XcfQPUK2mk6FqIF8sZS4oYVGqkw6mN095VNM49JA8xo+MByqv3qsduz/uLnKUaNQd86nn3HvW0rcy9mGehm4i1lWz5MR+KNk4MXQnvXu/JVte8KlgeVEJjvVHf4TUNMWgJlr2Hvf54zDG4TLmgw850ypPsy65tyFty5ieJm13UwekarVfaZRGI1G/MeyGYGjOpwE1vX0Z0yLZN6YEU40nM1/Pfb9p20ucfceQhM3RGwL7VnHAEJ6aWMF99OSWsigYc+/bgEvZpZX2fGVDGRc1yql1Qc2/PXKDdb7vf32+/nj8sjX9J/Jsrrnh460R7GYCjZDnfpMYaPlhyqU+5T099D2nqRohGsbJ3LODPEno3Wbe+9B7R/5nr9dOzXIs1vKAZE/ZnflFVAOclJzR5gb+9QQp8R6n7e68gZppOxNoajQC8GO01/OcrReflBXDjLSyimTGXDVDbaTVO/RVuTmYm2tSd2e7q/sbArvf3yFR7aZxy+dJhpWGs2500tU3vqlWdOTpI/rDtHQ1msjMInd08NMt+RJ9yvBRWCXtkuGUwcNS5Yf0i0DynsxMpLEiWLSo7pSsSmVz01TZqIB+mMx36FX3we1OL9LU7+5WnVXbdU89zen5joOrb6e/xZv+DaIHx9JDAvEDv1B/Q5vYTanvDPqOPKavPOCu28Nd/4A/NkrJypr4z6jt8Bn/SxQJkP5foxmR1taRjOgsO81KTbts9FUw0UZa89FmHqgKARCq0uZ5XOUDuF9y639SfvbL7YFXjFfgPRADQkC60F70I47k+skm69fXwRYCKkqtMIkTx2bHcZIem8nkcewkzuOS3gJGSphlsLl5sGXYIhlqg83foRfZhiZb2t28M4PN4+dBMutea+XhirhFOB931AkKX5ev56op0Ypg2HUR9aI2U/sidRV3KBXd6zd6e69ec5fbO4heJb8iv6jSxRVuv3q1t+cvTU4aCeyQeQM0j5lhV/GN/RTI+4Mqvlgfbskx2lW4aiy0PmofG70R45d/MhD+cDPmKt8hRVfN3/xp6JrXeDkMxoahqKh3oiGR2iRWfKeALVF+qmz5qU37DZVovi6qGIFbwU1CVPL/JOKOEZCB/OnzA5+wJGQJEogYW1LWUcu2sSAQ6mJ+LaxXvZRnH2/uf/BQNi0zt91cGtALBZfNM6L/03iZp+0yjhYExLF/rp24kMk/62MUar56lUWokc8aAW+q615/2uGb33Mjt+RW8Ggf2/reIVHYkOKIVZqrKg+2ykxJp5K9lQzdJ7UmKzVwJZzwCE4NBUSGF6JlYLr7Ls1d7nQYWW6iEtLdHaIi9CpuKRtV5XywCxB58MAYFkc+H5XYzPINFXCrVnk4fH5qa0ZnMxROXUuFCR/XUl3cc8ucYoPIDBpD9zD18IIPZQt1i66bjnvVeztXarmtm2cluaeW+0Zltl6KbZ9vLzaBfb7skISF48lKNBwpRDlkDKcT/1oBI0Tf2FiwTYrO03EEJ1chkPGmtJCKoTOf9QoHXtND6a8HCvU+nzlfEUIz1ZAP1gbeAC0NBBkIgZ/e7sgUlIRFOUHSh8MP960VcDTHPACyUEbeO1akct0V+/iOCunUN71tC9aMl8hpHVUPwKsYu3tTsLbvcDgMU09QWBJqcuRuPT+gfSMidNyprNRxPDTPIE0/iT8aQY82TrDcQvPEFCVxEtjseE7yUzCBhMv8/TszyC3ytKmEWlun888kWmShB5qiHmI4ZbFbSllesS7BlGTlWoPKd9dQUfrUHS7q4Sx3lgcr4nrYAZ8Ny5xIgJgpC4M9yP1q+e6yJhX3XCE/4kIg5ElQOT16pf3YtbMqp9bUxZyLIKsmCrKydTrG+BKji0bixIO8uG3bZr88GwYuH2nV8Y5z7XlM3ss0brOSTQjrIyNYWuU9e0OvrdtPwj+4lZ78fhBxhdhif2yUmw7favkBGO9Lv/92BZ5ybrjQOokKxk8r5Va6yUXREV0OF/Il5X2q03HF+fagAzHUPJ8h1/Fwco3PzZwAdlrxO6FAemoNItDoqXOJ0NensWj97QRqOgN8YLVUHrDM2wt8fJTp/Q7hy7+nfgAY80JYwQMrHCgsalNn56aocKj0MaiV/gDgvXBQzTAY6A0R0nrNk/Bfvpr3tIFuh+saUloscpVq0D1GHOqe8qPJfQH50P2K26596oW8Tq82EsV3ndQf7iuIn2lzyJn/Dpaj9cHnkogO//75i2HMffjaJTbbW2eQw+Px/0ISZMOv9k3EowF4/w3/DCRDhvijXH4B74xxMrICgvYw+GcgI+nxNjSpn7KS4M+FC74KHyXQJMsyMLCs87WEaAMHyx7fIPU8dg6RUgRQiJEDUKUVvkLcTl9FlGvQsDwDBpZ3fC1ZYnCw/Ocb5FK96/3xe4XEawSeYWHbf4aCnLQ6h4v9AlUMj1WFfxATIp+N3VAs+wQHcYwNUlVTzpLJSJZ98CcDY4j5SDsQuVtz9pu+l6QNOkF271UEuOwHXjBb/6GRQBw5dM5/vC9AKQwudjT9k6LEcszimVFn6GD6KbpOXW6kcVIpk8xIEnMhMqUW8yEyACMUE8aT5R0gtJTOOkD2Nnp7KNlV7JZX2ReAyGPXrfUsmQ4kWVE13TAt23F9nnsPHj159hJOijOo4cijS38Jh/B5lmjM+RLJL9TceH9v28yVUMAsDCUYT4IBl5U24+0WimZLBsXK8zzeyXLDRcFU47iAx8JiPIpcIrQIgwYeMnlK4EH3SnSNIaBjv5KDkwaLbHAQwjmK2QIG5GdxNcNRlXOzmDy4C/CdY/b2AAA=) format("woff2");
+        }
+        .iconfont { font-style: normal; -webkit-font-smoothing: antialiased; cursor: pointer; font-family: iconfont !important; }
+        .iconicon_open::before { content: "\e6b2"; }
+        .iconicon_widget_face::before { content: "\e6e0"; }
+        .iconicon_widget_picture::before { content: "\e6e1"; }
+        .iconicon_widget_video::before { content: "\e6e4"; }
+        .iconicon_widget_assess::before { content: "\e6e3"; }
+
+        .root { width: 100%; height: 100%; position: relative; }
+        .main-container {
+            width: 100%; height: 100%; display: flex; flex-direction: column;
+            overflow: hidden; position: relative; background: rgb(252, 252, 252);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .title-bar {
+            width: 100%; padding: 10px 12px; display: flex; min-height: 60px;
+            font-size: 14px; color: white; background: rgb(0, 122, 255);
+            align-items: center;
+        }
+        .title-bar .back-btn { display: flex; margin-right: 4px; }
+        .title-bar .back-btn .back { width: 20px; height: 20px; transform: rotate(90deg); }
+        .title-bar .title-right { width: 100px; flex: 1 1 auto; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .title-bar .name-bar { display: flex; flex-direction: column; justify-content: center; height: auto; line-height: 1.4; align-items: flex-start; }
+        .title-bar .name-bar .chat-box-title { font-size: 15px; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100%; }
+        .title-bar .name-bar .name { flex: 0 0 auto; font-size: 12px; opacity: 0.85; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100%; }
+        .title-bar .title-avatar { width: 40px; height: 40px; margin-right: 10px; border-radius: 3px; }
+        .title-bar .sound-btn { margin-left: auto; font-size: 16px; color: #fff; cursor: pointer; display: flex; align-items: center; padding: 0 8px; user-select: none; }
+        .title-bar .sound-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .title-bar { position: relative; }
+        .title-bar .lang-btn { margin-left: auto; color: #fff; cursor: pointer; display: flex; align-items: center; padding: 0 8px; user-select: none; }
+        .title-bar .lang-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .title-bar .lang-btn + .sound-btn { margin-left: 0; }
+        .lang-menu { display: none; position: absolute; top: 100%; right: 8px; z-index: 60; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,.18); padding: 4px 0; max-height: 320px; overflow-y: auto; min-width: 150px; }
+        .lang-menu.show { display: block; }
+        .lang-menu .lang-item { padding: 8px 14px; font-size: 13px; color: #333; cursor: pointer; white-space: nowrap; display: flex; align-items: center; justify-content: space-between; }
+        .lang-menu .lang-item:hover { background: #f2f6ff; }
+        .lang-menu .lang-item.active { color: #007AFF; font-weight: 500; }
+        .lang-menu .lang-item.active::after { content: '✓'; margin-left: 12px; }
+        .title-bar .close-btn { font-size: 20px; color: #fff; margin-left: 10px; margin-right: 10px; cursor: pointer; }
+
+        .msg-area { background: rgb(252, 252, 252); flex: 1 1 auto; height: 100px; display: flex; flex-direction: column; position: relative; }
+        .msg-scroll { width: 100%; height: 100%; padding: 14px; box-sizing: border-box; overflow-y: auto; position: relative; }
+        .msg-scroll::-webkit-scrollbar { width: 2px; }
+        .msg-scroll::-webkit-scrollbar-track { border-radius: 10px; }
+        .msg-scroll::-webkit-scrollbar-thumb { border-radius: 10px; background: #e3eaff; }
+
+        .load-more { font-size: 12px; text-align: center; color: #1E9FFF; cursor: pointer; padding: 8px 0; }
+        .load-more:hover { text-decoration: underline; }
+
+        .msg-item { width: 100%; position: relative; padding-top: 10px; padding-bottom: 10px; padding-left: 10px; }
+        .msg-item::after { content: " "; display: table; clear: both; }
+
+        .msg-left .msg-avatar { width: 36px; height: 36px; margin-right: 10px; margin-top: 16px; vertical-align: top; float: left; border-radius: 3px; }
+        .msg-left .msg-info { float: left; text-align: left; max-width: calc(100% - 50px); }
+        .msg-left .msg-name { color: rgb(178, 178, 178); font-size: 12px; margin-bottom: 2px; }
+        .msg-left .msg-bubble { max-width: 100%; position: relative; background-color: rgb(255, 255, 255); border-radius: 3px; border: 1px solid rgb(240, 240, 240); float: left; }
+        .msg-left .msg-bubble::before { position: absolute; width: 0; height: 0; content: ''; border: 5px solid transparent; left: -10px; right: auto; top: 12px; border-right-color: #fff; }
+        .msg-left .msg-bubble .msg-text { padding: 10px 15px; border-radius: 3px; font-size: 13px; word-break: break-word; color: #444; white-space: pre-wrap; }
+        #msgList, #msgList * { -webkit-user-select: text; user-select: text; }
+        #msgList img, #previewImg { -webkit-touch-callout: default; }
+        .msg-left .msg-bubble .msg-text img { max-width: 100%; max-height: 150px; cursor: pointer; }
+        .msg-left .msg-bubble .msg-text video { width: 150px; height: 150px; }
+
+        .msg-right .msg-info { float: right; text-align: right; max-width: calc(100% - 50px); }
+        .msg-right .msg-name { color: rgb(178, 178, 178); font-size: 12px; }
+        .msg-right .msg-bubble { max-width: 100%; position: relative; background-color: rgb(0, 122, 255); border-radius: 3px; border: 1px solid rgb(240, 240, 240); margin-left: 30px; float: right; }
+        .msg-right .msg-bubble::before { position: absolute; width: 0; height: 0; content: ''; border: 5px solid transparent; left: auto; right: -10px; top: 12px; border-left-color: rgb(0, 122, 255); }
+        .msg-right .msg-bubble .msg-text { padding: 10px 15px; border-radius: 3px; font-size: 13px; word-break: break-word; color: white; white-space: normal; text-align: left; white-space: pre-wrap; }
+        .msg-right .msg-bubble .msg-text img { max-width: 100%; max-height: 150px; cursor: pointer; }
+        .msg-right .msg-bubble .msg-text video { width: 150px; height: 150px; }
+        .msg-right .read-flag { display: none !important; } /* 客户前端不展示已读/未读 */
+        .msg-right .read-flag span { color: #b5b5b5; font-size: 12px; }
+
+        .msg-system { text-align: center; padding: 10px 0; }
+        .msg-system .sys-text { font-size: 12px; color: #b5b5b5; }
+        .msg-system .sys-text a { color: #1E9FFF; cursor: pointer; text-decoration: none; }
+
+        .msg-question-list { padding: 10px 15px; }
+        .msg-question-list p { margin: 0 0 5px 0; color: #444; font-size: 13px; }
+        .msg-question-list .q-item { cursor: pointer; color: #1E9FFF; margin-top: 5px; font-size: 13px; }
+        .msg-question-list .q-item:hover { text-decoration: underline; }
+
+        .msg-common-question .msg-text { padding: 10px 15px; }
+        .msg-common-question .msg-text .cq-title { color: #444; }
+        .msg-common-question .msg-text .cq-item { color: #1E9FFF; cursor: pointer; display: block; margin-top: 5px; }
+        .msg-common-question .msg-text .cq-item:hover { text-decoration: underline; }
+
+        .input-area { width: 100%; background: rgb(255, 255, 255); border-top: 1px solid rgb(237, 237, 237); }
+        .input-toolbar { width: 100%; position: relative; box-sizing: border-box; padding: 6px 6px 0px; margin-bottom: 4px; display: flex; align-items: center; }
+        .toolbar-btns { display: flex; justify-content: flex-start; align-items: center; flex-wrap: nowrap; }
+        .toolbar-btns .tb-btn { margin-right: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .toolbar-btns .tb-btn i { color: rgb(102, 102, 102); font-size: 24px; }
+        .toolbar-btns .tb-btn .relink-text { font-size: 12px; color: #1E9FFF; position: relative; top: -3px; }
+
+        .emoji-panel {
+            display: none; position: absolute; bottom: 100%; left: 0; background: #fff;
+            border: 1px solid #e8e8e8; border-radius: 8px; padding: 8px; width: 320px;
+            max-height: 240px; z-index: 100;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s;
+        }
+        .emoji-panel.show { display: flex; flex-direction: column; opacity: 1; transform: translateY(0); }
+        .emoji-panel .emoji-tabs { display: flex; border-bottom: 1px solid #eee; margin-bottom: 6px; flex-shrink: 0; }
+        .emoji-panel .emoji-tab { flex: 1; text-align: center; padding: 6px 0; font-size: 12px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+        .emoji-panel .emoji-tab:hover { color: #1E9FFF; }
+        .emoji-panel .emoji-tab.active { color: #1E9FFF; border-bottom-color: #1E9FFF; }
+        .emoji-panel .emoji-body { flex: 1; overflow-y: auto; min-height: 0; }
+        .emoji-panel .emoji-body::-webkit-scrollbar { width: 4px; }
+        .emoji-panel .emoji-body::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+        .emoji-panel .emoji-body::-webkit-scrollbar-thumb:hover { background: #bbb; }
+        .emoji-panel .emoji-tab-content { display: none; flex-wrap: wrap; gap: 2px; padding: 2px 0; min-height: 200px; }
+        .emoji-panel .emoji-tab-content.active { display: flex; }
+        .emoji-panel .emoji-item { font-size: 22px; width: 34px; height: 34px; text-align: center; line-height: 34px; cursor: pointer; border-radius: 6px; transition: background 0.15s, transform 0.15s; }
+        .emoji-panel .emoji-item:hover { background: #f0f0f0; transform: scale(1.15); }
+        .emoji-panel .emoji-item.emoji-img-item { width: 34px; height: 34px; line-height: 34px; }
+        .emoji-panel .emoji-item.emoji-img-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .emoji-panel .emoji-item.emoji-img-item:hover { transform: scale(1.1); }
+
+        .input-row { width: 100%; display: flex; padding: 0 6px 8px; align-items: flex-end; }
+        .input-row .lang-select-wrap { flex: 0 0 auto; margin-right: 6px; align-self: center; }
+        .input-row .textarea-wrap { flex: 1 1 auto; width: 100px; }
+        .input-row textarea {
+            display: block; width: 100%; padding: 0px 6px; outline: 0px;
+            background: rgb(243, 244, 248); border: none; font-size: 14px;
+            min-height: 40px; max-height: 84px; resize: none;
+            font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 40px;
+        }
+        .input-row .send-wrap { flex: 0 0 70px; width: 70px; margin-left: 6px; height: 40px; line-height: 40px; align-self: flex-end; }
+        .send-btn {
+            width: auto; height: auto; display: inline-block; vertical-align: middle;
+            font-size: 14px; border: 0px; outline: none; border-radius: 3px;
+            cursor: pointer; text-align: center; text-decoration: none; opacity: 1;
+            color: white; background: rgb(0, 122, 255); padding: 8px 16px;
+        }
+        .send-btn:active { opacity: 0.8; }
+
+        .hidden-input { visibility: hidden; position: absolute; }
+
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 10000001; justify-content: center; align-items: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-box {
+            background: #fff; border-radius: 8px; padding: 24px; width: 360px; max-width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2); position: relative;
+        }
+        .modal-box h3 { font-size: 16px; margin-bottom: 16px; color: #333; }
+        .modal-close {
+            position: absolute; top: 12px; right: 14px; width: 24px; height: 24px;
+            line-height: 24px; text-align: center; font-size: 18px; color: #999;
+            cursor: pointer; border: none; background: none; padding: 0;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: #333; }
+        .modal-box .form-group { margin-bottom: 12px; }
+        .modal-box .form-group label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; }
+        .modal-box .form-group input,
+        .modal-box .form-group textarea {
+            width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px;
+            font-size: 14px; outline: none; font-family: inherit;
+        }
+        .modal-box .form-group input:focus,
+        .modal-box .form-group textarea:focus { border-color: #1E9FFF; }
+        .modal-box .form-group textarea { resize: none; height: 80px; }
+        .modal-box .modal-btn {
+            width: 100%; padding: 10px; border: none; border-radius: 4px;
+            font-size: 14px; cursor: pointer; color: #fff; background: #1E9FFF; margin-top: 8px;
+        }
+        .modal-box .modal-btn:active { opacity: 0.8; }
+        .modal-box .modal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .modal-box .alert-success {
+            background: #f0f9eb; color: #67c23a; padding: 8px 12px; border-radius: 4px;
+            font-size: 13px; margin-bottom: 12px;
+        }
+
+        .rating-stars { display: flex; gap: 4px; margin-bottom: 8px; }
+        .rating-stars .star { font-size: 28px; cursor: pointer; color: #ccc; transition: color 0.2s; }
+        .rating-stars .star.active { color: #f7ba2a; }
+        .rating-stars .star:hover { color: #f7ba2a; }
+        .rating-label { font-size: 13px; color: #666; margin-bottom: 12px; }
+
+        .image-preview {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 10000002; justify-content: center; align-items: center;
+            cursor: pointer;
+        }
+        .image-preview.show { display: flex; }
+        .image-preview img { max-width: 90%; max-height: 90%; object-fit: contain; }
+
+        .wechat-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 10000003; justify-content: center; align-items: center;
+        }
+        .wechat-overlay.show { display: flex; }
+        .wechat-overlay .wechat-tip { color: #fff; font-size: 16px; text-align: center; padding: 40px; }
+
+        .loading-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 10000000; justify-content: center; align-items: center;
+        }
+        .loading-overlay.show { display: flex; }
+        .loading-overlay .loading-text { color: #fff; font-size: 16px; }
+
+        .is-pc .root {
+            border: none; margin: 0px; padding: 0px; overflow: visible; overflow-wrap: normal;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px; border-radius: 8px;
+            position: fixed; z-index: 9999999; top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: 500px; height: 610px; display: block !important;
+        }
+
+        /* iframe 内加载（loader.js 嵌入）：不再固定 500x610 居中，让 .root 填满 iframe */
+        .in-iframe .root,
+        .in-iframe.is-pc .root {
+            position: relative !important; top: auto !important; left: auto !important;
+            transform: none !important;
+            width: 100% !important; height: 100% !important;
+            max-width: 100% !important; max-height: 100% !important;
+            margin: 0 !important; padding: 0 !important;
+            box-shadow: none !important; border-radius: 0 !important;
+            z-index: auto !important; display: block !important;
+        }
+        /* iframe 内：标题栏不强制 60px，按内容自适应（避免小尺寸 iframe 被占满） */
+        .in-iframe .title-bar { min-height: 0; padding: 8px 12px; }
+        .in-iframe .title-avatar { width: 32px; height: 32px; }
+        .is-pc .mobile-only { display: none !important; }
+        .is-mobile .pc-only { display: none !important; }
+        .is-pc .msg-left .msg-avatar { display: none; }
+        .is-pc .msg-left .msg-info { max-width: calc(100% - 14px); }
+
+        .msg-file-wrap { display: flex; align-items: center; padding: 8px 12px; background: #f5f7fa; border-radius: 4px; cursor: pointer; min-width: 180px; max-width: 260px; }
+        .msg-file-wrap .file-icon { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #e8eaed; border-radius: 4px; margin-right: 10px; flex-shrink: 0; }
+        .msg-file-wrap .file-icon svg { width: 20px; height: 20px; fill: #666; }
+        .msg-file-wrap .file-info { flex: 1; min-width: 0; }
+        .msg-file-wrap .file-name { font-size: 13px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+        .msg-file-wrap .file-action { font-size: 12px; color: #1E9FFF; margin-top: 2px; }
+        .msg-right .msg-file-wrap .file-name { color: #fff; }
+        .msg-right .msg-file-wrap .file-action { color: rgba(255,255,255,0.85); }
+        .msg-right .msg-file-wrap { background: rgba(255,255,255,0.15); }
+
+        /* 桌面聊天框紧凑模式（chat_box_mode=2）：仅保留标题栏 */
+        body.desk-compact .msg-area,
+        body.desk-compact .input-area { display: none !important; }
+        body.desk-compact .main-container { padding-bottom: 0; }
+
+        /* 聊天框主标题始终显示（避免标题栏被设置成空） */
+        .title-bar .chat-box-title { display: block !important; color: #fff; }
+
+        /* 移动聊天框：气泡颜色（用 CSS 变量，默认维持原色） */
+        :root { --bubble-my-bg: rgb(0, 122, 255); --bubble-other-bg: rgb(255, 255, 255); }
+        .msg-right .msg-bubble { background-color: var(--bubble-my-bg) !important; }
+        .msg-left .msg-bubble { background-color: var(--bubble-other-bg) !important; }
+        .msg-left .msg-bubble .msg-text { color: #444; }
+
+        /* 移动聊天框：半屏模式（mobile_box_style=2） */
+        body.mobile-half-screen .msg-area { max-height: 50vh; }
+        body.mobile-half-screen .input-area { display: none !important; }
+
+        /* 商户到期 404 */
+        .expire-404 {
+            display: none; position: fixed; inset: 0; z-index: 99999;
+            background: #f3f5f9; overflow: auto;
+            font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        }
+        .expire-404.show { display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+        .expire-404-inner {
+            width: 100%; max-width: 420px; text-align: center;
+        }
+        .expire-404-art {
+            width: min(220px, 56vw); height: min(220px, 56vw); margin: 0 auto 18px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 42%, #e8e4ff 0%, #d8d2ff 55%, #cfc8f8 100%);
+            border: 2px dashed rgba(124, 108, 240, 0.45);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(124, 108, 240, 0.12);
+            position: relative;
+        }
+        .expire-404-art::before {
+            content: ''; position: absolute; inset: 10%; border-radius: 50%;
+            box-shadow: 12px -18px 0 -14px #7eb6ff, -20px 8px 0 -15px #8ec5ff, 22px 26px 0 -15px #9bb8ff;
+            pointer-events: none;
+        }
+        .expire-404-art svg { width: 62%; height: 62%; position: relative; z-index: 1; }
+        .expire-404-code {
+            font-size: clamp(48px, 14vw, 72px); font-weight: 800; color: #7c6cf0;
+            line-height: 1.1; letter-spacing: 2px; margin-bottom: 10px;
+        }
+        .expire-404-title {
+            font-size: clamp(18px, 5vw, 22px); font-weight: 700; color: #2f3542; margin-bottom: 10px;
+        }
+        .expire-404-desc {
+            font-size: clamp(13px, 3.6vw, 14px); color: #646b79; line-height: 1.7; margin: 0 auto 22px;
+            max-width: 320px;
+        }
+        .expire-404-actions {
+            display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+        }
+        .expire-404-btn {
+            min-width: 120px; height: 42px; padding: 0 18px; border-radius: 22px;
+            font-size: 14px; cursor: pointer; border: 1px solid #d8dbe3; background: #fff; color: #7c6cf0;
+        }
+        .expire-404-btn.primary {
+            background: #7c6cf0; color: #fff; border-color: #7c6cf0;
+            box-shadow: 0 8px 18px rgba(124, 108, 240, 0.28);
+        }
+        body.expire-locked .root { display: none !important; }
+        @media (max-width: 480px) {
+            .expire-404-btn { flex: 1 1 40%; min-width: 0; }
+        }
+    </style>
+    <script>
+        (function() {
+            function isMobile() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent);
+            }
+            if (isMobile()) {
+                document.documentElement.className = 'is-mobile';
+            } else {
+                document.documentElement.className = 'is-pc';
+            }
+            // 在 iframe 内加载时（loader.js 嵌入），让 .root 自适应 iframe 尺寸
+            // 而不是按 .is-pc 默认的 500x610 固定居中
+            try {
+                if (window.self !== window.top) {
+                    document.documentElement.className += ' in-iframe';
+                }
+            } catch (e) {
+                // 跨域 iframe 访问 window.top 会抛错，按 iframe 处理
+                document.documentElement.className += ' in-iframe';
+            }
+        })();
+    </script>
+    <script>
+        (function () {
+            function block(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            function inMsg(e) {
+                var t = e.target;
+                if (t && t.nodeType !== 1) t = t.parentNode;
+                return !!(t && t.closest && t.closest('#msgList, #previewImg'));
+            }
+            // document.addEventListener('contextmenu', block, true);
+            // document.addEventListener('dragstart', block, true);
+            document.addEventListener('contextmenu', function (e) { if (!inMsg(e)) block(e); }, true);
+            document.addEventListener('dragstart', function (e) { if (!inMsg(e)) block(e); }, true);
+            document.addEventListener('selectstart', function (e) {
+                var tag = (e.target && e.target.tagName || '').toLowerCase();
+                if (tag === 'input' || tag === 'textarea' || (e.target && e.target.isContentEditable)) return;
+                if (inMsg(e)) return;
+                block(e);
+            }, true);
+            document.addEventListener('keydown', function (e) {
+                var key = e.key || '';
+                var code = e.keyCode || e.which;
+                if (code === 123 || key === 'F12') return block(e);
+                if (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'i' || key === 'J' || key === 'j' || key === 'C' || key === 'c' || code === 73 || code === 74 || code === 67)) return block(e);
+                if (e.ctrlKey && (key === 'U' || key === 'u' || key === 'S' || key === 's' || code === 85 || code === 83)) return block(e);
+                if (e.metaKey && e.altKey && (key === 'I' || key === 'i' || key === 'J' || key === 'j' || key === 'C' || key === 'c')) return block(e);
+            }, true);
+            var locked = false;
+            function lockPage() {
+                if (locked) return;
+                locked = true;
+                try {
+                    document.documentElement.innerHTML = '';
+                    document.write('');
+                } catch (err) {}
+                try { window.stop(); } catch (err2) {}
+                location.replace('about:blank');
+            }
+            function isMobileUa() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent);
+            }
+            function checkDevtools() {
+                if (isMobileUa()) return;
+                var threshold = 160;
+                var wide = window.outerWidth - window.innerWidth > threshold;
+                var tall = window.outerHeight - window.innerHeight > threshold;
+                if (wide || tall) lockPage();
+            }
+            setInterval(checkDevtools, 800);
+            window.addEventListener('resize', checkDevtools);
+            setInterval(function () {
+                if (isMobileUa()) return;
+                var t0 = performance.now();
+                debugger;
+                if (performance.now() - t0 > 100) lockPage();
+            }, 2000);
+        })();
+    </script>
+</head>
+<body>
+    <div class="expire-404" id="expire404">
+        <div class="expire-404-inner">
+            <div class="expire-404-art" aria-hidden="true">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="100" cy="128" rx="62" ry="22" fill="#8b7cf8"/>
+                    <ellipse cx="100" cy="120" rx="70" ry="28" fill="#9b8cff"/>
+                    <ellipse cx="100" cy="112" rx="48" ry="18" fill="#b7acff"/>
+                    <circle cx="100" cy="78" r="34" fill="#c9f2c0"/>
+                    <path d="M66 86 C66 52 134 52 134 86 L134 96 C134 108 66 108 66 96 Z" fill="#d7f7d0" stroke="#9ad48e" stroke-width="2"/>
+                    <circle cx="88" cy="78" r="4" fill="#355c3a"/>
+                    <circle cx="112" cy="78" r="4" fill="#355c3a"/>
+                    <ellipse cx="100" cy="90" rx="7" ry="5" fill="#5f9a66"/>
+                    <rect x="40" y="118" width="10" height="18" rx="4" fill="#7c6cf0"/>
+                    <rect x="150" y="118" width="10" height="18" rx="4" fill="#7c6cf0"/>
+                    <circle cx="45" cy="116" r="5" fill="#ffd66b"/>
+                    <circle cx="155" cy="116" r="5" fill="#ffd66b"/>
+                </svg>
+            </div>
+            <div class="expire-404-code">404</div>
+            <div class="expire-404-title" data-zh="哎呀，页面走丢了！">哎呀，页面走丢了！</div>
+            <!--
+            <div class="expire-404-desc">您访问的页面可能被外星人劫持了，或者它正在重新装修中。<br>请检查网址是否输入有误。</div>
+            <div class="expire-404-actions">
+                <button type="button" class="expire-404-btn" id="expireBackBtn">返回上一页</button>
+                <button type="button" class="expire-404-btn primary" id="expireHomeBtn">返回首页</button>
+            </div>
+            -->
+        </div>
+    </div>
+    <div class="root" id="app">
+        <div class="main-container">
+            <div class="title-bar" id="titleBar">
+                <div class="back-btn mobile-only" id="backBtn" style="display:none;">
+                    <div class="back"><i class="iconfont iconicon_open" style="font-size:20px;"></i></div>
+                </div>
+                <img class="title-avatar" id="titleAvatar" alt="" style="visibility:hidden">
+                <div class="title-right">
+                    <div class="name-bar">
+                        <div class="chat-box-title" id="chatBoxTitle" data-zh="在线客服">在线客服</div>
+                        <div class="name" id="titleName" style="display:none"></div>
+                    </div>
+                </div>
+                <div class="lang-btn" id="langBtn" data-zh-title="语言">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+                </div>
+                <div class="lang-menu" id="langMenu"></div>
+                <!-- <div class="sound-btn" id="soundBtn" title="声音开关"> -->
+                <div class="sound-btn" id="soundBtn" data-zh-title="声音开关" title="声音开关">
+                    <svg id="soundOnIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    <svg id="soundOffIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                </div>
+                <div class="close-btn mobile-only" id="closeBtn" style="display:none;">
+                    <i class="iconfont iconicon_open" style="font-size:20px;transform:rotate(0deg);"></i>
+                </div>
+            </div>
+            <div class="msg-area">
+                <div class="msg-scroll" id="msgScroll">
+                    <div id="loadMore" class="load-more" style="display:none;" data-zh="查看更多消息">查看更多消息</div>
+                    <div id="msgList"></div>
+                </div>
+            </div>
+            <div class="input-area" id="inputArea">
+                <div class="input-toolbar">
+                    <div class="toolbar-btns">
+                        <div class="tb-btn" id="emojiBtn" title="表情" data-zh-title="表情"><i class="iconfont iconicon_widget_face"></i></div>
+                        <div class="tb-btn" id="imgBtn" title="发送图片" data-zh-title="发送图片"><i class="iconfont iconicon_widget_picture"></i></div>
+                        <div class="tb-btn" id="videoBtn" title="发送视频" data-zh-title="发送视频"><i class="iconfont iconicon_widget_video"></i></div>
+                        <div class="tb-btn" id="fileBtn" title="发送文件" data-zh-title="发送文件"><i class="iconfont" style="font-size:20px;">📎</i></div>
+                        <div class="tb-btn" id="praiseBtn" title="评价" data-zh-title="评价"><i class="iconfont iconicon_widget_assess"></i></div>
+                        <div class="tb-btn" id="relinkBtn" style="display:none;"><i class="iconfont iconicon_widget_assess" style="color:#1E9FFF !important;"></i><span class="relink-text" id="relinkText" data-zh="转人工">转人工</span></div>
+                    </div>
+                    <div class="emoji-panel" id="emojiPanel"></div>
+                </div>
+                <div class="input-row">
+                    <div class="lang-select-wrap" id="langSelectWrap" style="display:none;">
+                        <select id="langSelect" style="padding:4px 6px;font-size:13px;border:1px solid #ddd;border-radius:3px;background:#fff;color:#333;outline:none;cursor:pointer;">
+                            <option value="zh-CN">简体中文</option>
+                            <option value="zh-TW">繁體中文</option>
+                            <option value="en">English</option>
+                            <option value="ja">日本語</option>
+                            <option value="ko">한국어</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="es">Español</option>
+                            <option value="pt">Português</option>
+                            <option value="ru">Русский</option>
+                            <option value="ar">العربية</option>
+                            <option value="th">ไทย</option>
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="id">Bahasa Indonesia</option>
+                        </select>
+                    </div>
+                    <div class="textarea-wrap">
+                        <textarea id="chatInput" placeholder="请输入" data-zh-ph="请输入" dir="auto" autocomplete="off" rows="1"></textarea>
+                    </div>
+                    <div class="send-wrap">
+                        <button class="send-btn" id="sendBtn" data-zh="发送">发送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" class="hidden-input" id="imgFile" accept="image/bmp,image/jpeg,image/jpg,image/png">
+    <input type="file" class="hidden-input" id="videoFile" accept="video/mp4,video/x-flv,video/x-ms-wmv,video/x-msvideo,video/quicktime">
+    <input type="file" class="hidden-input" id="fileInput" accept=".zip,.rar,.txt,.doc,.docx,.xls,.xlsx,.pdf">
+
+    <div class="modal-overlay" id="preFormModal">
+        <div class="modal-box">
+            <div class="alert-success" data-zh="为了给您提供更好的服务，请您填写如下信息。">为了给您提供更好的服务，请您填写如下信息。</div>
+            <div id="preFormFields"></div>
+            <button class="modal-btn" id="preFormSubmit" data-zh="提交">提交</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="praiseModal">
+        <div class="modal-box">
+            <button class="modal-close" id="praiseClose">×</button>
+            <h3 data-zh="评价客服">评价客服</h3>
+            <div class="rating-stars" id="ratingStars">
+                <span class="star active" data-val="1">★</span>
+                <span class="star active" data-val="2">★</span>
+                <span class="star active" data-val="3">★</span>
+                <span class="star active" data-val="4">★</span>
+                <span class="star active" data-val="5">★</span>
+            </div>
+            <div class="rating-label" id="ratingLabel" data-zh="非常满意">非常满意</div>
+            <div class="form-group">
+                <textarea id="praiseDesc" placeholder="请留下您的宝贵意见" data-zh-ph="请留下您的宝贵意见" dir="auto"></textarea>
+            </div>
+            <button class="modal-btn" id="praiseSubmit" data-zh="提交">提交</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="leaveModal">
+        <div class="modal-box">
+            <h3 data-zh="离线留言">离线留言</h3>
+            <div class="form-group">
+                <input type="text" id="leaveUsername" placeholder="称呼" data-zh-ph="称呼" dir="auto">
+            </div>
+            <div class="form-group">
+                <input type="text" id="leavePhone" placeholder="手机号" data-zh-ph="手机号">
+            </div>
+            <div class="form-group">
+                <textarea id="leaveContent" placeholder="请留下您的意见" data-zh-ph="请留下您的意见" dir="auto"></textarea>
+            </div>
+            <button class="modal-btn" id="leaveSubmit" data-zh="提交">提交</button>
+        </div>
+    </div>
+
+    <div class="image-preview" id="imagePreview">
+        <img id="previewImg" src="" alt="">
+    </div>
+
+    <div class="wechat-overlay" id="wechatOverlay">
+        <div class="wechat-tip"><span data-zh="请点击右上角">请点击右上角</span><br><span data-zh="选择在浏览器中打开">选择在浏览器中打开</span></div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-text" data-zh="连接中...">连接中...</div>
+    </div>
+
+    <script>
+    (function() {
+        // ============ localStorage 命名空间前缀 ============
+        // 避免与同域名下其它项目（web2、web2-h5 等）发生 key 冲突
+        var KEFU_STORAGE_PREFIX = 'user_';
+        window._k = function(name) { return KEFU_STORAGE_PREFIX + name; };
+
+        // 一次性迁移：把旧的（无前缀）key 搬运到 user_ 前缀
+        (function migrateLegacy() {
+            try {
+                var legacy = ['customerInfo', 'keepChatOpen', 'relink_person', 'adminEnded', 'hello', 'comQuestion'];
+                for (var i = 0; i < legacy.length; i++) {
+                    var key = legacy[i];
+                    var v = localStorage.getItem(key);
+                    if (v !== null && v !== undefined && v !== '') {
+                        localStorage.setItem(window._k(key), v);
+                        localStorage.removeItem(key);
+                    }
+                }
+            } catch (e) {}
+        })();
+
+        var scripts = document.querySelectorAll('script[src]');
+        var selfSrc = '';
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src && scripts[i].src.indexOf('kefu') > -1) {
+                selfSrc = scripts[i].src;
+                break;
+            }
+        }
+
+        var params = new URLSearchParams(window.location.search);
+        var API_URL = (params.get('api') || 'https://api2.hgsd45dsfyou.cyou').replace(/\/+$/, '');
+        function assetUrl(url) {
+            if (!url) return '';
+            return String(url).replace(
+                /^https?:\/\/(?:kefu\.daou888\.top|118\.128\.151\.34(?:\.sslip\.io)?)(?::\d+)?/i,
+                API_URL
+            ).replace(/([^:])\/{2,}/g, '$1/');
+        }
+
+        function applyTitleAvatar(url) {
+            var el = $('titleAvatar');
+            if (!el) return;
+            var src = assetUrl(url);
+            if (!src) {
+                el.removeAttribute('src');
+                el.style.visibility = 'hidden';
+                return;
+            }
+            state.headerAvatar = src;
+            el.style.visibility = 'visible';
+            el.src = src;
+        }
+
+        function kefuAvatarSrc() {
+            var raw = (state.serviceKefu && state.serviceKefu.kefu_avatar) || state.headerAvatar || '';
+            return assetUrl(raw);
+        }
+
+        function applyHeaderTitle() {
+            var card = state.front_msg && state.front_msg.business_card;
+            var name = card && card.name ? String(card.name).trim() : '';
+            var titleEl = $('chatBoxTitle');
+            var nameEl = $('titleName');
+            if (name && titleEl) {
+                // titleEl.textContent = name;
+                I18.setText(titleEl, name);
+                document.title = titleEl.textContent;
+            }
+            if (nameEl) nameEl.style.display = 'none';
+        }
+        var WS_URL = '';
+
+        var state = {
+            chatType: 2,
+            hasOpen: 0,
+            activeClick: 0,
+            canChat: 0,
+            customer: {},
+            serviceKefu: {},
+            headerAvatar: '',
+            dataList: [],
+            likeQuestion: [],
+            openCustomer: 0,
+            robotOpen: false,
+            preInput: 0,
+            preFormData: [],
+            formList: [],
+            content: '',
+            showEmotion: false,
+            hasLog: 0,
+            search: { page: 1, limit: 15, uid: '', u: '' },
+            about: '',
+            diyColor: '#007AFF',
+            audio2: '',
+            audio2_open: true,
+            translate: 0,
+            seller_translate_open: 0,
+            language: '',
+            auto_language: 0,
+            keep_chat_window: 0,
+            desktop_unread_mode: 1,
+            mobile_unread_mode: 1,
+            unreadCount: 0,
+            front_msg: {
+                get_more: '查看更多消息',
+                me: '我',
+                read: '已读',
+                unread: '未读',
+                offline_kefu: '客服不在线',
+                leave_msg: '留言',
+                please_input: '请输入',
+                send_btn: '发送',
+                robot_name: '智能客服',
+                robot_hello: '您好，有什么可以帮助您？',
+                person_service: '为您服务',
+                relink_person: '转人工',
+                check_question: '您可能想问：',
+                no_msg_guide_switch: 0,
+                no_msg_guide_content: '',
+                no_msg_guide_second: 3
+            },
+            websock: null,
+            lockReconnect: false,
+            timeout: 20000,
+            timeoutObj: null,
+            serverTimeoutObj: null,
+            timeoutnum: null,
+            seller_code: '6afdd101d1d74',
+            sub_fix: '',
+            ratingVal: 5,
+            userId: '',
+            userNick: '',
+            memberAccount: '',
+            memberName: ''
+        };
+
+        var ratingTexts = ['非常不满意', '不满意', '一般', '满意', '非常满意'];
+
+        var DEFAULT_EMOJIS = [
+            '😀','😁','😂','🤣','😃','😄','😅','😆','😉','😊',
+            '😋','😎','😍','😘','🥰','😗','😙','😚','🙂','🤗',
+            '🤔','😐','😑','😶','🙄','😏','😣','😥','😮','🤐',
+            '😯','😪','😫','😴','😌','😛','😜','😝','🤤','😒',
+            '😓','😔','😕','🙃','🤑','😲','🙁','😖','😞','😟'
+        ];
+
+        var emojiData = { textList: [], imageList: [] };
+
+        function $(id) { return document.getElementById(id); }
+
+        var I18 = window.KefuI18n;
+        var T = I18.T, trSys = I18.trSys;
+
+        function revealI18nShell() {
+            document.documentElement.classList.remove('i18n-pending');
+        }
+        function normalizeVisitorLangCode(code) {
+            if (!code) return '';
+            var s = String(code).trim();
+            if (s === 'en-US') return 'en';
+            if (s === 'zh') return 'zh-CN';
+            return s;
+        }
+
+        function visitorBrowserLang() {
+            var nav = String((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+            if (!nav) return '';
+            if (/^zh-(tw|hk|mo|hant)/.test(nav)) return 'zh-TW';
+            if (nav.indexOf('zh') === 0) return 'zh-CN';
+            var p = nav.split('-')[0];
+            var codes = I18.langs.map(function(l) { return l[0]; });
+            return codes.indexOf(p) > -1 ? p : '';
+        }
+
+        function applyVisitorLanguageFromSettings() {
+            if (!state.front_msg) {
+                revealI18nShell();
+                return;
+            }
+            var fm = state.front_msg;
+            var codes = I18.langs.map(function(l) { return l[0]; });
+            var target = '';
+            try {
+                var q = new URLSearchParams(location.search).get('lang');
+                if (q && codes.indexOf(q) > -1) target = q;
+            } catch (e) {}
+            if (!target) {
+                try {
+                    var saved = localStorage.getItem(window._k('user_uiLang'));
+                    if (saved && codes.indexOf(saved) > -1) target = saved;
+                } catch (e) {}
+            }
+            if (!target) {
+                target = normalizeVisitorLangCode(fm.visitor_lang || 'zh-CN');
+                if (Number(fm.visitor_follow_browser) === 1) {
+                    var browser = visitorBrowserLang();
+                    if (browser) target = browser;
+                }
+            }
+            if (codes.indexOf(target) < 0) target = 'zh-CN';
+            if (I18.getLang() !== target) {
+                I18.setLang(target, false);
+            }
+            try {
+                if (state.seller_code) sessionStorage.setItem('kefu_vlang_' + state.seller_code, target);
+            } catch (e) {}
+            buildLangMenu();
+            if (typeof updateUI === 'function') updateUI();
+            if (typeof renderMessages === 'function') renderMessages();
+            revealI18nShell();
+        }
+
+
+        function buildLangMenu() {
+            var menu = $('langMenu');
+            if (!menu) return;
+            var cur = I18.getLang();
+            menu.innerHTML = I18.langs.map(function(l) {
+                return '<div class="lang-item' + (l[0] === cur ? ' active' : '') + '" data-lang="' + l[0] + '">' + l[1] + '</div>';
+            }).join('');
+        }
+
+        function initLangSwitch() {
+            buildLangMenu();
+            I18.applyStatic();
+            document.title = T(document.title);
+            $('langBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                $('langMenu').classList.toggle('show');
+            });
+            $('langMenu').addEventListener('click', function(e) {
+                var item = e.target.closest('.lang-item');
+                if (!item) return;
+                e.stopPropagation();
+                $('langMenu').classList.remove('show');
+                var picked = item.getAttribute('data-lang');
+                I18.setLang(picked);
+                try { localStorage.setItem(window._k('user_uiLang'), picked); } catch (e) {}
+            });
+            document.addEventListener('click', function() {
+                var m = $('langMenu');
+                if (m) m.classList.remove('show');
+            });
+            I18.onChange(function() {
+                buildLangMenu();
+                var titleEl = $('chatBoxTitle');
+                if (titleEl) document.title = titleEl.textContent || T('客服');
+                var rl = $('ratingLabel');
+                if (rl) rl.textContent = T(ratingTexts[state.ratingVal - 1] || '');
+                var tabImgEl = document.querySelector('.emoji-tab[data-tab="image"]');
+                if (tabImgEl) tabImgEl.textContent = T('图片');
+                renderMessages();
+            });
+        }
+        initLangSwitch();
+        setTimeout(function(){ revealI18nShell(); }, 5000);
+
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i.test(navigator.userAgent);
+        }
+
+        function getUnreadMode() {
+            return isMobile() ? state.mobile_unread_mode : state.desktop_unread_mode;
+        }
+
+        function shouldAutoExpand() {
+            return getUnreadMode() == 2;
+        }
+
+        function showLoading(text) {
+            // $('loadingOverlay').querySelector('.loading-text').textContent = text || '连接中...';
+            I18.setText($('loadingOverlay').querySelector('.loading-text'), text || '连接中...');
+            $('loadingOverlay').classList.add('show');
+        }
+        function hideLoading() {
+            $('loadingOverlay').classList.remove('show');
+        }
+
+        function httpGet(url) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                var sep = url.indexOf('?') === -1 ? '?' : '&';
+                xhr.open('GET', url + sep + '_=' + new Date().getTime(), true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            try { resolve(JSON.parse(xhr.responseText)); }
+                            catch(e) { reject(e); }
+                        } else { reject(new Error('HTTP ' + xhr.status)); }
+                    }
+                };
+                xhr.send();
+            });
+        }
+
+        function httpPost(url, data, asJson) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                if (data instanceof FormData) {
+                    xhr.send(data);
+                } else if (asJson) {
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(data));
+                } else {
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    var pairs = [];
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            var val = data[key];
+                            if (typeof val === 'object') {
+                                pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(JSON.stringify(val)));
+                            } else {
+                                pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+                            }
+                        }
+                    }
+                    xhr.send(pairs.join('&'));
+                }
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            try { resolve(JSON.parse(xhr.responseText)); }
+                            catch(e) { reject(e); }
+                        } else { reject(new Error('HTTP ' + xhr.status)); }
+                    }
+                };
+            });
+        }
+
+        function parseUrl() {
+            var path = window.location.pathname;
+            var params = new URLSearchParams(window.location.search);
+
+            state.seller_code = params.get('s') || '6afdd101d1d74';
+            var typeParam = params.get('type');
+            state.chatType = typeParam ? parseInt(typeParam) : 2;
+            state.userId = params.get('user_id') || '';
+            state.userNick = params.get('user_nick') || '';
+            state.memberAccount = params.get('member_account') || state.userId;
+            state.memberName = params.get('member_name') || state.userNick;
+
+            var parts = path.split('/').filter(function(p) { return p.length > 0; });
+            var lastPart = parts[parts.length - 1] || '';
+
+            if (lastPart === 'index.html' || lastPart === '404.html' || lastPart === '') {
+                state.sub_fix = params.get('sub_fix') || '';
+                if (!state.seller_code && parts.length >= 2) {
+                    var possibleCode = parts[parts.length - 2];
+                    if (possibleCode !== 'user' && possibleCode !== 'kefu' && possibleCode !== 'webchat') {
+                        state.seller_code = possibleCode;
+                    }
+                }
+            } else {
+                state.sub_fix = lastPart;
+                if (!state.seller_code) {
+                    state.seller_code = lastPart;
+                }
+            }
+
+            if (state.chatType === 0) {
+                state.chatType = state.seller_code ? 2 : 1;
+            }
+        }
+
+        function checkSubFix() {
+            if (!state.sub_fix) {
+                return Promise.resolve();
+            }
+            return httpGet(API_URL + '/index/customer/checkSubFix?sub_fix=' + encodeURIComponent(state.sub_fix))
+                .then(function(res) {
+                    if (res.code != 0) {
+                        showTip('无效参数');
+                    }
+                })
+                .catch(function() {
+                    showTip('无效参数');
+                });
+        }
+
+        function getConfig() {
+            return httpGet(API_URL + '/index/index/getConfig?seller_code=' + encodeURIComponent(state.seller_code))
+                .then(function(res) {
+                    if (isSellerExpiredResponse(res)) {
+                        showExpire404();
+                        return;
+                    }
+                    if (res.code == 0) {
+                        var d = res.data;
+                        // 使用本地固定提示音，不读后台 chat_voice 远程地址
+                        state.audio2 = 'https://youqiam.pages.dev/tongzhi.wav';
+                        state.audio2_open = d.chat_voice_open;
+                        state.translate = d.translate_open;
+                        state.seller_translate_open = d.translate_input_open;
+                        state.language = d.translate_input;
+                        state.robotOpen = d.robot_open == 1;
+                        state.preInput = d.pre_input;
+                        state.preFormData = d.form || [];
+                        if (d.front_msg) {
+                            for (var k in d.front_msg) {
+                                state.front_msg[k] = d.front_msg[k];
+                            }
+                        }
+                        if (d.style) {
+                            state.diyColor = d.style;
+                        }
+                        state.about = d.about || '';
+
+                        // 声音提示：front_msg.sound_notice 覆盖 chat_voice_open
+                        if (state.front_msg.sound_notice !== undefined) {
+                            state.audio2_open = state.front_msg.sound_notice == 1;
+                        }
+                        // 自助切换语言
+                        if (state.front_msg.auto_language !== undefined) {
+                            state.auto_language = state.front_msg.auto_language;
+                        }
+                        // 刷新保持聊天窗口
+                        if (state.front_msg.keep_chat_window !== undefined) {
+                            state.keep_chat_window = state.front_msg.keep_chat_window;
+                        }
+                        // 未读消息模式
+                        if (state.front_msg.desktop_unread_mode !== undefined) {
+                            state.desktop_unread_mode = state.front_msg.desktop_unread_mode;
+                        }
+                        if (state.front_msg.mobile_unread_mode !== undefined) {
+                            state.mobile_unread_mode = state.front_msg.mobile_unread_mode;
+                        }
+                        // 对话扩展：图片/文件传输开关
+                        applyTransferSwitches();
+
+                        // 刷新保持聊天窗口：页面加载时恢复上次打开状态
+                        if (state.keep_chat_window == 1 && state.chatType == 1) {
+                            var keepOpen = localStorage.getItem(window._k('keepChatOpen'));
+                            if (keepOpen === '1') {
+                                state.hasOpen = 1;
+                            }
+                        }
+
+                        if (!WS_URL) {
+                            WS_URL = 'wss://api2.hgsd45dsfyou.cyou/wss';
+                        }
+
+                        // 应用按设备选好的聊天框样式（PC / 移动）
+                        if (d.chat_box || d.desk_chat_box) {
+                            applyChatBox(d.chat_box || d.desk_chat_box);
+                        }
+                        applyHeaderTitle();
+
+                        applyTheme();
+                        applyVisitorLanguageFromSettings();
+                        updateUI();
+
+                        var ua = navigator.userAgent.toLowerCase();
+                        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                            $('wechatOverlay').classList.add('show');
+                            return;
+                        }
+
+                        if (!state.robotOpen) {
+                            state.openCustomer = 1;
+                        }
+
+                        var robotService = localStorage.getItem(window._k('relink_person'));
+                        if (robotService) {
+                            var nowTime = new Date().getTime() / 1000;
+                            var limit3hour = 3600 * 3;
+                            if ((nowTime - robotService) > limit3hour) {
+                                localStorage.removeItem(window._k('relink_person'));
+                                if (state.robotOpen) {
+                                    state.openCustomer = 0;
+                                }
+                            } else {
+                                state.openCustomer = 1;
+                            }
+                        } else {
+                            if (state.robotOpen) {
+                                state.openCustomer = 0;
+                            }
+                        }
+
+                        if (state.robotOpen && state.openCustomer == 0) {
+                            applyTitleAvatar(state.headerAvatar);
+                            I18.setText($('titleName'), state.front_msg.robot_name);
+                            state.dataList.push({
+                                name: state.front_msg.robot_name,
+                                avatar: '',
+                                id: 0, time: '',
+                                msg_type: 'text',
+                                content: state.front_msg.robot_hello,
+                                translate_content: state.front_msg.robot_hello, i18n: 1,
+                                language: '', protocol: 'http',
+                                chat_log_id: 0, type: 2, read_flag: 2
+                            });
+                            renderMessages();
+                            $('relinkBtn').style.display = 'flex';
+                            I18.setText($('relinkText'), state.front_msg.relink_person);
+                            return;
+                        }
+
+                        if (state.seller_code && state.chatType == 2 && state.preInput == 0) {
+                            makeCustomer();
+                        }
+
+                        if (state.preInput == 1) {
+                            var customerInfo = null;
+                            try { customerInfo = JSON.parse(localStorage.getItem(window._k('customerInfo'))); } catch(e) {}
+                            if (customerInfo) {
+                                useCustomerInit(customerInfo);
+                            } else {
+                                showPreForm();
+                            }
+                        }
+                    }
+                });
+        }
+
+        function applyTheme() {
+            $('titleBar').style.background = state.diyColor;
+            // 主标题文字始终保持白色，确保在彩色背景上清晰可见
+            var chatBoxTitle = $('chatBoxTitle');
+            if (chatBoxTitle) chatBoxTitle.style.color = '#fff';
+            var sendBtns = document.querySelectorAll('.send-btn');
+            sendBtns.forEach(function(btn) { btn.style.background = state.diyColor; });
+            var rightBubbles = document.querySelectorAll('.msg-right .msg-bubble');
+            rightBubbles.forEach(function(b) {
+                b.style.backgroundColor = state.diyColor;
+                b.querySelector('.msg-text').style.color = '#fff';
+            });
+        }
+
+        function updateUI() {
+            // $('chatInput').placeholder = state.front_msg.please_input;
+            // $('sendBtn').textContent = state.front_msg.send_btn;
+            // $('loadMore').textContent = state.front_msg.get_more;
+            I18.setPlaceholder($('chatInput'), state.front_msg.please_input);
+            I18.setText($('sendBtn'), state.front_msg.send_btn);
+            I18.setText($('loadMore'), state.front_msg.get_more);
+            // 已隐藏自助切换语言选择器
+        }
+
+        function showPreForm() {
+            var container = $('preFormFields');
+            container.innerHTML = '';
+            state.formList = [];
+            state.preFormData.forEach(function(item) {
+                state.formList.push({ title: item.name, value: '' });
+                var div = document.createElement('div');
+                div.className = 'form-group';
+                div.innerHTML = '<label>' + item.name + '</label><input type="text" data-idx="' + (state.formList.length - 1) + '">';
+                container.appendChild(div);
+            });
+            $('preFormModal').classList.add('show');
+        }
+
+        $('preFormSubmit').addEventListener('click', function() {
+            var inputs = $('preFormFields').querySelectorAll('input');
+            inputs.forEach(function(inp) {
+                var idx = parseInt(inp.getAttribute('data-idx'));
+                state.formList[idx].value = inp.value;
+            });
+            httpPost(API_URL + '/index/Customer/checkInfo', { form: state.formList }, true)
+                .then(function(res) {
+                    if (res.code == 0) {
+                        makeCustomer(res.data.customer_id, res.data.customer_name);
+                        $('preFormModal').classList.remove('show');
+                    }
+                });
+        });
+
+        function makeCustomer(customerId, customerName) {
+            state.customer.seller = state.seller_code;
+            state.customer.agent = navigator.userAgent;
+            state.customer.referrer = document.referrer;
+            state.customer.sourceUrl = window.location.href;
+            state.customer.websocket = WS_URL;
+            state.customer.userType = customerId ? 0 : 1;
+            state.customer.avatar = API_URL + '/static/common/images/customer.png';
+            state.customer.uid = customerId ? customerId : (memberUid(state.memberAccount) || state.userId || Number(Math.random().toString().substr(3, 4) + Date.now()).toString(36));
+            state.customer.uName = customerName ? customerName : (state.memberName || state.userNick || '访客' + state.customer.uid);
+
+            var customerInfo = null;
+            try { customerInfo = JSON.parse(localStorage.getItem(window._k('customerInfo'))); } catch(e) {}
+            if (!state.memberAccount && !state.memberName) {
+                if (customerInfo && customerInfo.uid) {
+                    state.customer.avatar = customerInfo.avatar;
+                    state.customer.uid = customerInfo.uid;
+                    state.customer.uName = customerInfo.uName;
+                } else {
+                    state.customer.uid = Number(Math.random().toString().substr(3, 4) + Date.now()).toString(36);
+                    state.customer.uName = '访客' + state.customer.uid;
+                    state.customer.userType = 0;
+                }
+            }
+            applyMemberIdentity();
+
+            localStorage.setItem(window._k('customerInfo'), JSON.stringify(state.customer));
+            showLoading('连接中...');
+            initWebSocket();
+        }
+
+        function useCustomerInit(customerInfo) {
+            state.customer.seller = state.seller_code;
+            state.customer.agent = navigator.userAgent;
+            state.customer.referrer = document.referrer;
+            state.customer.sourceUrl = window.location.href;
+            state.customer.websocket = WS_URL;
+            state.customer.userType = 1;
+            state.customer.avatar = customerInfo.avatar;
+            state.customer.uid = customerInfo.uid;
+            state.customer.uName = customerInfo.uName;
+            applyMemberIdentity();
+            showLoading('连接中...');
+            initWebSocket();
+        }
+
+        function memberUid(account) {
+            account = String(account || '').replace(/["'\\]/g, '').trim();
+            if (!account) return '';
+            if (account.length <= 32) return account;
+            var h1 = 2166136261;
+            var h2 = 2166136261;
+            for (var i = 0; i < account.length; i++) {
+                h1 ^= account.charCodeAt(i);
+                h1 = Math.imul(h1, 16777619);
+                h2 ^= account.charCodeAt(account.length - 1 - i);
+                h2 = Math.imul(h2, 16777619);
+            }
+            function hex(n) {
+                return ('00000000' + (n >>> 0).toString(16)).slice(-8);
+            }
+            return (hex(h1) + hex(h2)).slice(0, 32);
+        }
+
+        function applyMemberIdentity() {
+            var account = String(state.customer.member_account || state.memberAccount || state.userId || '').replace(/["'\\]/g, '').trim();
+            var name = String(state.customer.member_name || state.memberName || state.userNick || '').trim();
+            if (account) {
+                state.memberAccount = account;
+                state.customer.member_account = account;
+                state.customer.uid = memberUid(account);
+            }
+            if (name) {
+                state.memberName = name;
+                state.customer.member_name = name;
+                state.customer.uName = name;
+            }
+        }
+
+        function initWebSocket() {
+            var wsUrl = state.customer.websocket || WS_URL;
+            if (!wsUrl) {
+                wsUrl = 'wss://api2.hgsd45dsfyou.cyou/wss';
+                WS_URL = wsUrl;
+            }
+            try {
+                state.websock = new WebSocket(wsUrl);
+            } catch(e) {
+                reconnect();
+                return;
+            }
+            state.websock.onopen = websocketonopen;
+            state.websock.onerror = websocketonerror;
+            state.websock.onmessage = websocketonmessage;
+            state.websock.onclose = websocketclose;
+        }
+
+        function reconnect() {
+            if (state.lockReconnect) return;
+            showLoading('重连中...');
+            state.lockReconnect = true;
+            if (state.timeoutnum) clearTimeout(state.timeoutnum);
+            state.timeoutnum = setTimeout(function() {
+                initWebSocket();
+                state.lockReconnect = false;
+            }, 5000);
+        }
+
+        function resetHeartbeat() {
+            clearTimeout(state.timeoutObj);
+            clearTimeout(state.serverTimeoutObj);
+            startHeartbeat();
+        }
+
+        function startHeartbeat() {
+            state.timeoutObj = setTimeout(function() {
+                if (state.websock && state.websock.readyState == 1) {
+                    state.websock.send(JSON.stringify({ cmd: 'ping' }));
+                } else {
+                    reconnect();
+                }
+                state.serverTimeoutObj = setTimeout(function() {
+                    if (state.websock) state.websock.close();
+                }, state.timeout);
+            }, state.timeout);
+        }
+
+        var TRANS_LANG = { 'zh-CN': 'zh', 'zh-TW': 'cht', 'en': 'en', 'ja': 'jp', 'ko': 'kor', 'es': 'spa', 'pt': 'pt', 'tr': 'tr', 'ar': 'ara', 'th': 'th', 'vi': 'vie', 'de': 'de', 'it': 'it', 'ru': 'ru' };
+        function sendVisitorLang() {
+            if (!state.customer || !state.customer.uid) return;
+            websocketsend(JSON.stringify({
+                cmd: 'setLang',
+                data: { uid: state.customer.uid, seller_code: state.customer.seller, lang: TRANS_LANG[I18.getLang()] || 'zh' }
+            }));
+        }
+        I18.onChange(sendVisitorLang);
+
+        // 发布新版后自动刷新：打开页面时记下 version.txt，之后它变化就重新加载；访客正在输入时延后
+        var PAGE_VERSION = '';
+        var versionReloadPending = false;
+        function checkPageVersion() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://youqiam.pages.dev/version.txt?t=' + Date.now(), true);
+            xhr.onload = function() {
+                var v = String(xhr.responseText || '').trim();
+                if (xhr.status !== 200 || !/^[\w.-]{6,40}$/.test(v)) return;
+                if (!PAGE_VERSION) { PAGE_VERSION = v; return; }
+                if (v === PAGE_VERSION) return;
+                versionReloadPending = true;
+                reloadIfIdle();
+            };
+            xhr.send();
+        }
+        checkPageVersion();
+        function reloadIfIdle() {
+            if (!versionReloadPending) return;
+            var input = $('chatInput');
+            if (input && input.value.trim()) return;
+            location.reload();
+        }
+        setInterval(checkPageVersion, 60000);
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') checkPageVersion();
+        });
+        $('chatInput').addEventListener('blur', reloadIfIdle);
+        $('chatInput').addEventListener('input', function() {
+            if (!$('chatInput').value.trim()) reloadIfIdle();
+        });
+
+        function websocketonopen() {
+            hideLoading();
+            sendVisitorLang();
+            if (state.hasOpen == 0 && state.chatType == 1) {
+                websocketsend(JSON.stringify({
+                    cmd: 'customerIn',
+                    data: {
+                        customer_id: state.customer.uid,
+                        customer_name: state.customer.uName,
+                        customer_avatar: state.customer.avatar,
+                        seller_code: state.customer.seller,
+                        userType: state.customer.userType,
+                        referrer: state.customer.referrer,
+                        sourceUrl: state.customer.sourceUrl || ''
+                    }
+                }));
+            } else if (state.chatType == 2) {
+                state.hasOpen = 1;
+                userInit();
+            }
+            startHeartbeat();
+        }
+
+        function websocketonerror() {
+            state.hasOpen = 0;
+            state.activeClick = 0;
+            reconnect();
+        }
+
+        function websocketclose() {
+            state.hasOpen = 0;
+            state.activeClick = 0;
+            reconnect();
+        }
+
+        function websocketonmessage(event) {
+            var res;
+            try { res = JSON.parse(event.data); } catch(e) { return; }
+            console.log('[WS RECV]', res);
+            resetHeartbeat();
+            switch (res.cmd) {
+                case 'userInit': userInitHandle(res); break;
+                case 'customerIn':
+                    if (state.chatType == 1) {
+                        if (state.keep_chat_window == 1) localStorage.setItem(window._k('keepChatOpen'), '1');
+                        try { top.postMessage('init_complete', '*'); } catch(e) {}
+                    }
+                    break;
+                case 'ring': playSound(); break;
+                case 'readMessage': readHandle(res); break;
+                case 'afterSend': afterSendHandle(res.data); break;
+                case 'chatMessage': playSound(); handleChatMsg(res.data); break;
+                case 'praiseKf': showPraiseModal(); break;
+                case 'comQuestion':
+                    localStorage.setItem(window._k('comQuestion'), JSON.stringify(res.data));
+                    break;
+                case 'hello':
+                    localStorage.setItem(window._k('hello'), JSON.stringify(res.data));
+                    break;
+                case 'answerComQuestion': handleAutoAnswer(res.data); break;
+                case 'isClose':
+                    console.log('[isClose]', res.data);
+                    var endByAdmin = res.data && res.data.endByAdmin;
+                    state.dataList.push({ type: 3, content: (res.data && res.data.msg) || state.front_msg.offline_kefu, leave: 1 });
+                    state.lastStatusTip = '';
+                    state.serviceKefu = {};
+                    renderMessages();
+                    scrollToBottom();
+                    state.canChat = 0;
+                    hideLoading();
+                    if (endByAdmin) {
+                        // 客服主动结束对话，重置状态以便下次进入时重新触发无消息访客引导
+                        localStorage.setItem(window._k('adminEnded'), '1');
+                    }
+                    break;
+                case 'reLink': relinkHandle(res.data); break;
+                case 'autoLink':
+                    if (state.activeClick == 0) {
+                        playSound();
+                        if (state.keep_chat_window == 1) localStorage.setItem(window._k('keepChatOpen'), '1');
+                        if (state.chatType == 1) {
+                            if (shouldAutoExpand()) {
+                                try { top.postMessage('show_chat', '*'); } catch(e) {}
+                            } else {
+                                state.unreadCount++;
+                                try { top.postMessage(JSON.stringify({ cmd: 'unread_count', count: state.unreadCount }), '*'); } catch(e) {}
+                            }
+                        }
+                    }
+                    break;
+                case 'rollBackMessage': rollBackMessage(res.data); break;
+                case 'kefuStatusChange': kefuStatusChangeHandle(res); break;
+            }
+        }
+
+        function websocketsend(msg) {
+            if (state.websock && state.websock.readyState == 1) {
+                state.websock.send(msg);
+            }
+        }
+
+        function userInit() {
+            pushCustomerReferrer();
+            websocketsend(JSON.stringify({
+                cmd: 'userInit',
+                data: {
+                    uid: state.customer.uid,
+                    name: state.customer.member_name || state.memberName || state.customer.uName,
+                    avatar: state.customer.avatar,
+                    seller: state.customer.seller,
+                    userType: state.customer.userType,
+                    type: state.chatType,
+                    referrer: state.customer.referrer || '',
+                    sourceUrl: state.customer.sourceUrl || window.location.href || '',
+                    member_account: state.customer.member_account || state.memberAccount || '',
+                    member_name: state.customer.member_name || state.memberName || ''
+                }
+            }));
+        }
+
+        function pushCustomerReferrer() {
+            httpPost(API_URL + '/index/index/updateUserInfo', {
+                customer_id: state.customer.uid,
+                seller_code: state.customer.seller,
+                referrer: state.customer.referrer,
+                agent: state.customer.agent,
+                self_content: state.formList,
+                member_account: state.customer.member_account || state.memberAccount || '',
+                member_name: state.customer.member_name || state.memberName || ''
+            }, true);
+        }
+
+        /**
+         * 主动降级：无在线客服时立即显示离线留言界面，
+         * 不等 WebSocket isClose 链路（后者可能在第三方嵌入环境下失败）。
+         * 由 c_info 处理器在已知 is_online=false 时调用。
+         */
+        function offlineFallback() {
+            state.dataList.push({
+                type: 3,
+                content: state.front_msg.offline_kefu || '暂无客服在线，请留言',
+                leave: 1
+            });
+            state.canChat = 0;
+            renderMessages();
+            scrollToBottom();
+        }
+
+        // 根据"对话扩展"配置控制图片/文件传输按钮的显隐
+        function applyTransferSwitches() {
+            if (!state.front_msg) return;
+            var imgBtn = $('imgBtn');
+            var fileBtn = $('fileBtn');
+            if (imgBtn) {
+                imgBtn.style.display = (state.front_msg.image_transfer_switch == 0) ? 'none' : '';
+            }
+            if (fileBtn) {
+                fileBtn.style.display = (state.front_msg.file_transfer_switch == 0) ? 'none' : '';
+            }
+        }
+
+        function userInitHandle(res) {
+            var data = res.data;
+            console.log('[userInitHandle] code=' + data.code + ' msg=' + data.msg, data);
+            if (data.code == 201) {
+                httpGet(API_URL + '/index/index/getBlackList').then(function(apiRes) {
+                    if (apiRes.code == 0) {
+                        window.location.href = apiRes.data;
+                    }
+                });
+                return;
+            }
+            if (data.code == 0) {
+                var assignedId = data.data && data.data.customer_id;
+                if (assignedId && assignedId !== state.customer.uid && !state.memberAccount && !state.memberName) {
+                    state.customer.uid = assignedId;
+                    state.customer.uName = '访客' + assignedId;
+                    try { localStorage.setItem(window._k('customerInfo'), JSON.stringify(state.customer)); } catch (e) {}
+                }
+                hideLoading();
+                state.userInitRetry = 0;
+                state.canChat = 1;
+                state.serviceKefu = data.data;
+                state.search.u = state.customer.seller;
+                state.search.uid = state.customer.uid;
+                state.search.page = 1;
+                applyHeaderTitle();
+                if (state.serviceKefu.kefu_avatar) {
+                    state.headerAvatar = state.serviceKefu.kefu_avatar;
+                }
+                applyTitleAvatar(state.headerAvatar);
+                applyHeaderTitle();
+                // 新服务分配（如客服结束对话后重连），重置引导消息状态
+                if (data.newService) {
+                    localStorage.setItem(window._k('adminEnded'), '1');
+                }
+                getChatLog();
+            } else if (data.code == 400) {
+                state.userInitRetry = (state.userInitRetry || 0) + 1;
+                if (state.userInitRetry <= 5) {
+                    showLoading('分配客服中...');
+                    var delay = state.userInitRetry * 2000;
+                    setTimeout(function() {
+                        userInit();
+                    }, delay);
+                } else {
+                    hideLoading();
+                    state.canChat = 0;
+                    state.dataList.push({ type: 3, content: '暂无可用客服，请稍后再试', leave: 1 });
+                    renderMessages();
+                    scrollToBottom();
+                }
+            } else if (data.code == 429) {
+                // 对话防刷拦截
+                hideLoading();
+                state.canChat = 0;
+                state.dataList.push({ type: 3, content: data.msg || '访问过于频繁，请稍后再试', leave: 1 });
+                renderMessages();
+                scrollToBottom();
+            } else if (data.code == 430) {
+                hideLoading();
+                state.canChat = 0;
+                var offMsg = data.msg || '当前不在服务时间，请留言';
+                var hasLeave = state.dataList.some(function(item) { return item.leave == 1; });
+                if (!hasLeave) {
+                    state.dataList.push({ type: 3, content: offMsg, leave: 1 });
+                    renderMessages();
+                    scrollToBottom();
+                }
+            } else {
+                hideLoading();
+                state.dataList.push({ type: 3, content: data.msg || '服务不可用', leave: 1 });
+                renderMessages();
+            }
+        }
+
+        function readHandle(res) {
+            var mid = String(res.data.mid).split(',');
+            state.dataList.forEach(function(item, index) {
+                if (mid.indexOf(String(item.chat_log_id)) !== -1) {
+                    state.dataList[index].read_flag = 2;
+                }
+            });
+            renderMessages();
+        }
+
+        function scheduleTextSendUnlock(lockUntil) {
+            var until = lockUntil || state.textSendLockUntil || 0;
+            var delay = Math.max(0, until - Date.now());
+            if (state.textSendUnlockTimer) {
+                clearTimeout(state.textSendUnlockTimer);
+            }
+            state.textSendUnlockTimer = setTimeout(function() {
+                state.textSendUnlockTimer = null;
+                state.textSendLockUntil = 0;
+                var sendBtn = $('sendBtn');
+                if (sendBtn) sendBtn.disabled = false;
+            }, delay);
+        }
+
+        function applyOutboundChatMsg(item) {
+            if (!item) return;
+            var timeStr = '';
+            if (item.time) {
+                var timeParts = item.time.split(' ');
+                timeStr = timeParts.length > 1 ? timeParts[1].substr(0, timeParts[1].length - 3) : item.time;
+            }
+            for (var i = state.dataList.length - 1; i >= 0; i--) {
+                var row = state.dataList[i];
+                if (row.type === 1 && (!row.chat_log_id || row.chat_log_id === 0) && row.msg_type === item.msg_type && row.content === item.content) {
+                    row.chat_log_id = item.chat_log_id;
+                    row.time = timeStr || row.time;
+                    row.id = item.id;
+                    row.name = item.name;
+                    row.avatar = item.avatar;
+                    row.translate_content = item.translate_content;
+                    row.language = item.language;
+                    row.read_flag = item.read_flag != null ? item.read_flag : 1;
+                    renderMessages();
+                    scrollToBottom();
+                    return;
+                }
+            }
+            sendHandle(item);
+        }
+
+        function afterSendHandle(data) {
+            if (data.code == 401) {
+                state.canChat = 0;
+                state.dataList.push({ type: 3, content: data.msg || '客服不在线', leave: 1 });
+                renderMessages();
+                scrollToBottom();
+                scheduleTextSendUnlock();
+                return;
+            }
+            if (data.code == 400) {
+                state.dataList.push({ type: 3, content: data.msg || '消息发送失败' });
+                renderMessages();
+                scrollToBottom();
+                scheduleTextSendUnlock();
+                return;
+            }
+            applyOutboundChatMsg(data.chatMsg);
+            scheduleTextSendUnlock();
+        }
+
+        function sendHandle(item) {
+            var timeStr = '';
+            if (item.time) {
+                var timeParts = item.time.split(' ');
+                timeStr = timeParts.length > 1 ? timeParts[1].substr(0, timeParts[1].length - 3) : item.time;
+            }
+            state.dataList.push({
+                name: item.name, avatar: item.avatar, id: item.id,
+                time: timeStr, msg_type: item.msg_type,
+                content: item.content,
+                translate_content: item.translate_content,
+                language: item.language, protocol: 'ws',
+                chat_log_id: item.chat_log_id, type: 1, read_flag: 1
+            });
+            state.content = '';
+            $('chatInput').value = '';
+            renderMessages();
+            scrollToBottom();
+        }
+
+        function handleChatMsg(item) {
+            if (state.hasOpen == 0) {
+                state.hasOpen = 1;
+                if (state.keep_chat_window == 1) localStorage.setItem(window._k('keepChatOpen'), '1');
+                if (state.chatType == 1) {
+                    if (shouldAutoExpand()) {
+                        try { top.postMessage('show_chat', '*'); } catch(e) {}
+                    } else {
+                        // 未读模式：累加未读数，不清零（等用户点击打开后清零）
+                        state.unreadCount++;
+                        try { top.postMessage(JSON.stringify({ cmd: 'unread_count', count: state.unreadCount }), '*'); } catch(e) {}
+                    }
+                }
+            }
+            var timeStr = '';
+            if (item.time) {
+                var timeParts = item.time.split(' ');
+                timeStr = timeParts.length > 1 ? timeParts[1].substr(0, timeParts[1].length - 3) : item.time;
+            }
+            // 去重：getChatLog 历史拉取可能已包含此消息（竞态）
+            if (item.chat_log_id) {
+                for (var i = 0; i < state.dataList.length; i++) {
+                    if (String(state.dataList[i].chat_log_id) === String(item.chat_log_id)) {
+                        return;
+                    }
+                }
+            }
+            state.dataList.push({
+                name: item.name, avatar: item.avatar, id: item.id,
+                time: timeStr, msg_type: item.msg_type,
+                content: item.content,
+                translate_content: item.translate_content,
+                language: item.language, protocol: 'ws',
+                chat_log_id: item.chat_log_id, type: 2, read_flag: 1
+            });
+            websocketsend(JSON.stringify({
+                cmd: 'readMessage',
+                data: { uid: item.id, mid: item.chat_log_id }
+            }));
+            renderMessages();
+            scrollToBottom();
+        }
+
+        function handleAutoAnswer(item) {
+            state.dataList.push({
+                name: state.serviceKefu.kefu_name || '',
+                avatar: '', id: 0, time: item.time,
+                msg_type: 'text', content: item.content,
+                translate_content: item.content, language: '',
+                protocol: 'ws', chat_log_id: 0, type: 1, read_flag: 2
+            });
+            renderMessages();
+            scrollToBottom();
+        }
+
+        // 客服状态提示（为您服务/暂时离开）窗口里只保留最新一条，重连和重复推送不再刷屏
+        function setStatusTip(kind, item) {
+            for (var i = state.dataList.length - 1; i >= 0; i--) {
+                if (state.dataList[i].statusTip) state.dataList.splice(i, 1);
+            }
+            item.statusTip = 1;
+            state.dataList.push(item);
+            state.lastStatusTip = kind;
+        }
+
+        function relinkHandle(item) {
+            state.serviceKefu = item;
+            // state.dataList.push({
+            //     type: 3,
+            //     content: item.kefu_name + state.front_msg.person_service
+            // });
+            setStatusTip('online', {
+                type: 3,
+                content: item.kefu_name + state.front_msg.person_service
+            });
+            // $('titleName').textContent = item.kefu_name;
+            I18.setText($('titleName'), item.kefu_name);
+            applyTitleAvatar((item && item.kefu_avatar) || state.headerAvatar);
+            applyHeaderTitle();
+            renderMessages();
+            scrollToBottom();
+        }
+
+        function rollBackMessage(data) {
+            for (var i = 0; i < state.dataList.length; i++) {
+                if (state.dataList[i].chat_log_id == data.mid) {
+                    state.dataList.splice(i, 1);
+                    break;
+                }
+            }
+            renderMessages();
+        }
+
+        function getChatLog() {
+            httpGet(API_URL + '/index/index/getChatLog?page=' + state.search.page + '&limit=' + state.search.limit + '&uid=' + encodeURIComponent(state.customer.uid) + '&u=' + encodeURIComponent(state.customer.seller))
+                .then(function(res) {
+                    if (res.total <= 1) {
+                        state.hasLog = 0;
+                    } else {
+                        state.hasLog = 1;
+                    }
+
+                    // 如果客服通过"一键结束离线对话"结束了对话，视为无历史记录以触发引导消息
+                    if (localStorage.getItem(window._k('adminEnded')) === '1') {
+                        state.hasLog = 0;
+                        localStorage.removeItem(window._k('adminEnded'));
+                    }
+
+                    $('loadMore').style.display = state.hasLog ? 'block' : 'none';
+
+                    var noReadIds = [];
+                    if (res.data && res.data.length > 0) {
+                        res.data.forEach(function(item) {
+                            // 去重：WebSocket 实时推送可能已包含此消息（竞态）
+                            if (item.log_id) {
+                                for (var i = 0; i < state.dataList.length; i++) {
+                                    if (String(state.dataList[i].chat_log_id) === String(item.log_id)) {
+                                        return; // skip this item
+                                    }
+                                }
+                            }
+                            state.dataList.push({
+                                name: item.from_name, avatar: item.from_avatar,
+                                id: item.from_id, time: item.create_time,
+                                msg_type: item.msg_type, content: item.content,
+                                translate_content: item.translate_content,
+                                language: item.language, protocol: 'ws',
+                                chat_log_id: item.log_id, type: item.type,
+                                read_flag: item.read_flag
+                            });
+                            if (item.read_flag == 1 && item.type == 2) {
+                                noReadIds.push(item.log_id);
+                            }
+                        });
+                    }
+
+                    var hello = localStorage.getItem(window._k('hello'));
+                    if (!hello) {
+                        setTimeout(function() {
+                            hello = localStorage.getItem(window._k('hello'));
+                            if (hello) parseHello(hello);
+                        }, 2000);
+                    } else {
+                        parseHello(hello);
+                    }
+
+                    var common = localStorage.getItem(window._k('comQuestion'));
+                    if (!common) {
+                        setTimeout(function() {
+                            common = localStorage.getItem(window._k('comQuestion'));
+                            if (common) parseCommonQuestion(common);
+                        }, 2000);
+                    } else {
+                        parseCommonQuestion(common);
+                    }
+
+                    if (noReadIds.length >= 1) {
+                        websocketsend(JSON.stringify({
+                            cmd: 'readMessage',
+                            data: {
+                                uid: state.serviceKefu.kefu_code,
+                                mid: noReadIds.join(',')
+                            }
+                        }));
+                    }
+
+                    // state.dataList.push({
+                    //     type: 6,
+                    //     content: (state.serviceKefu.kefu_name || '') + state.front_msg.person_service
+                    // });
+                    if (state.lastStatusTip !== 'online') {
+                        setStatusTip('online', {
+                            type: 6,
+                            content: (state.serviceKefu.kefu_name || '') + state.front_msg.person_service
+                        });
+                    }
+
+                    renderMessages();
+                    scrollToBottom();
+                });
+        }
+
+        function loadMore() {
+            state.search.page++;
+            httpGet(API_URL + '/index/index/getChatLog?page=' + state.search.page + '&limit=' + state.search.limit + '&uid=' + encodeURIComponent(state.customer.uid) + '&u=' + encodeURIComponent(state.customer.seller))
+                .then(function(res) {
+                    if (state.search.page >= res.total) {
+                        state.hasLog = 0;
+                        $('loadMore').style.display = 'none';
+                    }
+                    if (res.data && res.data.length > 0) {
+                        var oldScrollHeight = $('msgScroll').scrollHeight;
+                        var newLog = state.dataList.slice();
+                        state.dataList = [];
+                        res.data.forEach(function(item) {
+                            state.dataList.push({
+                                name: item.from_name, avatar: item.from_avatar,
+                                id: item.from_id, time: item.create_time,
+                                msg_type: item.msg_type, content: item.content,
+                                translate_content: item.translate_content,
+                                language: item.language, protocol: 'ws',
+                                chat_log_id: item.log_id, type: item.type,
+                                read_flag: item.read_flag
+                            });
+                        });
+                        newLog.forEach(function(item) {
+                            state.dataList.push(item);
+                        });
+                        renderMessages();
+                        $('msgScroll').scrollTop = $('msgScroll').scrollHeight - oldScrollHeight;
+                    }
+                });
+        }
+
+        function parseHello(hello) {
+            try {
+                var list = JSON.parse(hello);
+                list.forEach(function(item) {
+                    state.dataList.push({
+                        name: state.serviceKefu.kefu_name || '',
+                        avatar: '', id: 0, time: item.time,
+                        msg_type: 'text',
+                        content: item.word.replace(/\n/g, '<br>'),
+                        translate_content: item.word.replace(/\n/g, '<br>'),
+                        language: '', protocol: 'ws',
+                        chat_log_id: 0, type: 2, read_flag: 2
+                    });
+                });
+                renderMessages();
+                scrollToBottom();
+            } catch(e) {}
+        }
+
+        function parseCommonQuestion(common) {
+            try {
+                var data = JSON.parse(common);
+                if (data.content) {
+                    state.dataList.push({
+                        name: state.serviceKefu.kefu_name || '',
+                        time: data.time, data: data.content,
+                        msg_type: 'text', type: 4
+                    });
+                    renderMessages();
+                    scrollToBottom();
+                }
+            } catch(e) {}
+        }
+
+        function getCurrentTimeStr() {
+            var d = new Date();
+            var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+            return pad(d.getHours()) + ':' + pad(d.getMinutes());
+        }
+
+        function renderMessages() {
+            var container = $('msgList');
+            container.innerHTML = '';
+            state.dataList.forEach(function(item, index) {
+                var div = document.createElement('div');
+                div.className = 'msg-item';
+
+                if (item.type == 1) {
+                    div.className += ' msg-right';
+                    // 客户前端不展示已读/未读（仅客服后台展示）；read_flag 仍由 socket 维护，不影响已读回执
+                    var readFlagHtml = '';
+                    var contentHtml = renderContent(item, 'right');
+                    var timeDisplay = item.time ? item.time + ' ' + T(state.front_msg.me) : '';
+                    div.innerHTML =
+                        '<div class="msg-info">' +
+                            '<div class="msg-name">' + timeDisplay + '</div>' +
+                            '<div class="msg-bubble" style="background-color:' + state.diyColor + ';">' +
+                                '<div class="msg-text" style="color:#fff;">' + contentHtml + '</div>' +
+                            '</div>' +
+                            readFlagHtml +
+                        '</div>';
+                } else if (item.type == 2) {
+                    div.className += ' msg-left';
+                    var contentHtml = renderContent(item, 'left');
+                    var nameDisplay = isMobile() ? (item.time || '') : (T(item.name || '在线客服') + ' ' + (item.time || ''));
+                    div.innerHTML =
+                        (kefuAvatarSrc() ? '<img class="msg-avatar mobile-only" src="' + kefuAvatarSrc() + '">' : '') +
+                        '<div class="msg-info">' +
+                            '<div class="msg-name">' + nameDisplay + '</div>' +
+                            '<div class="msg-bubble">' +
+                                '<div class="msg-text">' + contentHtml + '</div>' +
+                            '</div>' +
+                        '</div>';
+                } else if (item.type == 3) {
+                    div.className += ' msg-system';
+                    var _leaveMsg = T(state.front_msg.leave_msg || '留言');
+                    // var leaveLink = item.leave ? ' <a href="javascript:void(0)" onclick="showLeaveModal()">' + _leaveMsg + '</a>' : '';
+                    var leaveLink = item.leave ? ' <a href="#" data-act="leave">' + _leaveMsg + '</a>' : '';
+                    // div.innerHTML = '<span class="sys-text">' + (item.content || state.front_msg.offline_kefu) + leaveLink + '</span>';
+                    div.innerHTML = '<span class="sys-text">' + trSys(item.content || state.front_msg.offline_kefu) + leaveLink + '</span>';
+                } else if (item.type == 6) {
+                    div.className += ' msg-system';
+                    // div.innerHTML = '<span class="sys-text">' + item.content + '</span>';
+                    div.innerHTML = '<span class="sys-text">' + trSys(item.content) + '</span>';
+                } else if (item.type == 5) {
+                    div.className += ' msg-left';
+                    var qHtml = '<div class="msg-question-list">';
+                    qHtml += '<p>' + T(state.front_msg.check_question) + '</p>';
+                    state.likeQuestion.forEach(function(q, qi) {
+                        // qHtml += '<p class="q-item" onclick="answerQuestion(' + qi + ')">' + q.question + '</p>';
+                        qHtml += '<p class="q-item" data-act="answer" data-arg="' + qi + '">' + q.question + '</p>';
+                    });
+                    qHtml += '</div>';
+                    div.innerHTML =
+                        (kefuAvatarSrc() ? '<img class="msg-avatar mobile-only" src="' + kefuAvatarSrc() + '">' : '') +
+                        '<div class="msg-info">' +
+                            '<div class="msg-name">' + T(item.name || '') + '</div>' +
+                            '<div class="msg-bubble">' + qHtml + '</div>' +
+                        '</div>';
+                } else if (item.type == 4) {
+                    div.className += ' msg-left msg-common-question';
+                    var cqHtml = '<div class="msg-text">';
+                    if (item.data) {
+                        if (item.data.title) cqHtml += '<span class="cq-title">' + item.data.title + '</span>';
+                        if (item.data.data) {
+                            item.data.data.forEach(function(vo) {
+                                // cqHtml += '<span class="cq-item" onclick="autoAnswer(' + vo.question_id + ')">' + vo.content + '</span>';
+                                cqHtml += '<span class="cq-item" data-act="auto" data-arg="' + vo.question_id + '">' + vo.content + '</span>';
+                            });
+                        }
+                    }
+                    cqHtml += '</div>';
+                    var nameDisplay = T(item.name || '在线客服') + ' ' + (item.time || '');
+                    div.innerHTML =
+                        (kefuAvatarSrc() ? '<img class="msg-avatar mobile-only" src="' + kefuAvatarSrc() + '">' : '') +
+                        '<div class="msg-info">' +
+                            '<div class="msg-name">' + nameDisplay + '</div>' +
+                            '<div class="msg-bubble">' + cqHtml + '</div>' +
+                        '</div>';
+                }
+
+                container.appendChild(div);
+            });
+        }
+
+        function renderContent(item, side) {
+            if (item.msg_type == 'img' || item.msg_type == 'image') {
+                var imgSrc = assetUrl(item.content);
+                // return '<img src="' + imgSrc + '" onclick="previewImage(\'' + imgSrc + '\')" style="max-width:100%;max-height:150px;cursor:pointer;">';
+                return '<img src="' + imgSrc + '" data-act="preview" style="max-width:100%;max-height:150px;cursor:pointer;">';
+            } else if (item.msg_type == 'video') {
+                return '<video src="' + assetUrl(item.content) + '" controls style="width:150px;height:150px;"></video>';
+            } else if (item.msg_type == 'file') {
+                var fileName = getFileNameFromUrl(item.content) || T('文件下载');
+                var fileSrc = assetUrl(item.content);
+                // return '<div class="msg-file-wrap" onclick="downloadFile(\'' + fileSrc + '\', \'' + escapeHtml(fileName) + '\')">' +
+                return '<div class="msg-file-wrap" data-act="download" data-arg="' + escapeHtml(fileSrc) + '" data-name="' + escapeHtml(fileName) + '">' +
+                    '<div class="file-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/></svg></div>' +
+                    '<div class="file-info"><div class="file-name">' + escapeHtml(fileName) + '</div><div class="file-action">' + T('点击下载') + '</div></div>' +
+                    '</div>';
+            } else {
+                var text = side === 'left' ? (item.translate_content || item.content) : item.content;
+                if (item.i18n) text = T(text);
+                text = (text || '').replace(/\n/g, '<br>');
+                return '<span>' + text + '</span>';
+            }
+        }
+
+        function getFileNameFromUrl(url) {
+            if (!url) return '';
+            try {
+                var parts = url.split('/');
+                var last = parts[parts.length - 1];
+                if (last.indexOf('?') > -1) last = last.split('?')[0];
+                return decodeURIComponent(last);
+            } catch(e) {
+                return '';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        window.downloadFile = function(url, fileName) {
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = fileName || '';
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+
+        function scrollToBottom() {
+            setTimeout(function() {
+                var el = $('msgScroll');
+                el.scrollTop = el.scrollHeight + 1000;
+            }, 300);
+        }
+
+        var DEFAULT_SOUND = 'https://youqiam.pages.dev/tongzhi.wav';
+
+        function playSound() {
+            if (!state.audio2_open) return;
+            try {
+                var soundUrl = state.audio2 || DEFAULT_SOUND;
+                var audio = new Audio(soundUrl);
+                audio.play().catch(function() {
+                    playBeep();
+                });
+            } catch(e) {
+                playBeep();
+            }
+        }
+
+        function playBeep() {
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                var oscillator = ctx.createOscillator();
+                var gainNode = ctx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                gainNode.gain.value = 0.3;
+                oscillator.start();
+                setTimeout(function() {
+                    oscillator.stop();
+                    ctx.close();
+                }, 200);
+            } catch(e) {}
+        }
+
+        function sendMessage() {
+            var now = Date.now();
+            if (state.textSendLockUntil && now < state.textSendLockUntil) return;
+            var content = $('chatInput').value.replace(/^\s*|\s*$/g, '');
+            if (content == '') return;
+            state.textSendLockUntil = now + 800;
+            $('chatInput').value = '';
+            state.content = '';
+            var sendBtn = $('sendBtn');
+            if (sendBtn) sendBtn.disabled = true;
+            // 发送前检查黑名单
+            httpGet(API_URL + '/index/index/checkCustomerBlacklist?seller_code=' + encodeURIComponent(state.seller_code) + '&customer_id=' + encodeURIComponent(state.customer.uid))
+                .then(function(res) {
+                    if (res.code == 0 && res.data && res.data.is_blacklisted) {
+                        alert(T('对话异常'));
+                        scrollToBottom();
+                        scheduleTextSendUnlock(Date.now());
+                        return;
+                    }
+                    doSendMessage(content);
+                    scheduleTextSendUnlock(state.textSendLockUntil);
+                })
+                .catch(function() {
+                    doSendMessage(content);
+                    scheduleTextSendUnlock(state.textSendLockUntil);
+                });
+        }
+
+        // 带黑名单检查的 WebSocket 发送（用于图片/视频/文件/表情等非文本消息）
+        function sendWithBlacklistCheck(msgData, callback) {
+            if (!state.canChat) return;
+            httpGet(API_URL + '/index/index/checkCustomerBlacklist?seller_code=' + encodeURIComponent(state.seller_code) + '&customer_id=' + encodeURIComponent(state.customer.uid))
+                .then(function(res) {
+                    if (res.code == 0 && res.data && res.data.is_blacklisted) {
+                        alert(T('对话异常'));
+                        scrollToBottom();
+                        return;
+                    }
+                    websocketsend(JSON.stringify({ cmd: 'chatMessage', data: msgData }));
+                    if (callback) callback();
+                })
+                .catch(function() {
+                    // 接口异常时允许正常发送
+                    websocketsend(JSON.stringify({ cmd: 'chatMessage', data: msgData }));
+                    if (callback) callback();
+                });
+        }
+
+        function doSendMessage(content) {
+            if (state.openCustomer == 0) {
+                state.dataList.push({
+                    name: 'me', avatar: '', id: 0, time: '',
+                    msg_type: 'text', content: content,
+                    translate_content: content, language: '',
+                    protocol: 'http', chat_log_id: 0, type: 1, read_flag: 2
+                });
+                renderMessages();
+                scrollToBottom();
+
+                httpPost(API_URL + '/index/robot/service', {
+                    from_name: '访客',
+                    seller_code: state.seller_code,
+                    q: content
+                }, true).then(function(res) {
+                    if (res.code != 0) {
+                        state.dataList.push({ type: 3, content: res.msg || '服务异常' });
+                        renderMessages();
+                        scrollToBottom();
+                        $('chatInput').value = '';
+                        state.content = '';
+                        return;
+                    }
+                    if (res.data.detail.length == 1) {
+                        state.dataList.push({
+                            name: state.front_msg.robot_name, avatar: '', id: 0, time: '',
+                            msg_type: 'text', content: res.data.detail[0].content,
+                            translate_content: res.data.detail[0].content,
+                            language: '', protocol: 'http',
+                            chat_log_id: 0, type: 2, read_flag: 2
+                        });
+                    } else {
+                        state.likeQuestion = res.data.detail;
+                        state.dataList.push({
+                            name: state.front_msg.robot_name, avatar: '', id: 0, time: '',
+                            msg_type: 'text', content: '', translate_content: '',
+                            language: '', protocol: 'http',
+                            chat_log_id: 0, type: 5, read_flag: 2
+                        });
+                    }
+                    renderMessages();
+                    scrollToBottom();
+                });
+
+                $('chatInput').value = '';
+                state.content = '';
+                return;
+            }
+
+            if (!state.canChat) {
+                if (state.websock && state.websock.readyState === 1) {
+                    userInit();
+                }
+                return;
+            }
+
+            sendHandle({
+                name: 'me', avatar: state.customer.avatar, id: state.customer.uid,
+                time: '', msg_type: 'text', content: content,
+                translate_content: content, language: state.language || '',
+                chat_log_id: 0
+            });
+
+            websocketsend(JSON.stringify({
+                cmd: 'chatMessage',
+                data: {
+                    from_name: state.customer.uName,
+                    from_avatar: state.customer.avatar,
+                    from_id: state.customer.uid,
+                    to_id: state.serviceKefu.kefu_code,
+                    to_name: state.serviceKefu.kefu_name,
+                    content: content,
+                    language: state.language,
+                    translate: state.translate,
+                    seller_translate_open: state.seller_translate_open,
+                    msg_type: 'text',
+                    seller_code: state.customer.seller
+                }
+            }));
+        }
+
+        window.answerQuestion = function(idx) {
+            var item = state.likeQuestion[idx];
+            if (!item) return;
+            state.dataList.push({
+                name: '我', avatar: '', id: 0, time: '',
+                msg_type: 'text', content: item.question,
+                translate_content: item.question, language: '',
+                protocol: 'http', chat_log_id: 0, type: 1, read_flag: 2
+            });
+            state.dataList.push({
+                name: state.front_msg.robot_name, avatar: '', id: 0, time: '',
+                msg_type: 'text', content: item.content,
+                translate_content: item.content, language: '',
+                protocol: 'http', chat_log_id: 0, type: 2, read_flag: 2
+            });
+            renderMessages();
+            scrollToBottom();
+        };
+
+        window.autoAnswer = function(questionId) {
+            websocketsend(JSON.stringify({
+                cmd: 'comQuestion',
+                data: { question_id: questionId, seller_code: state.customer.seller }
+            }));
+        };
+
+        window.previewImage = function(src) {
+            $('previewImg').src = src;
+            $('imagePreview').classList.add('show');
+        };
+
+        window.showLeaveModal = function() {
+            $('leaveUsername').value = '';
+            $('leavePhone').value = '';
+            $('leaveContent').value = '';
+            $('leaveModal').classList.add('show');
+        };
+
+        // 消息里动态生成的可点击元素统一走事件委托：页面开启了 CSP，不允许内联 onclick
+        document.addEventListener('click', function(e) {
+            var el = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
+            if (!el) return;
+            var act = el.getAttribute('data-act');
+            var arg = el.getAttribute('data-arg');
+            if (act === 'leave') {
+                e.preventDefault();
+                window.showLeaveModal();
+            } else if (act === 'answer') {
+                window.answerQuestion(parseInt(arg, 10));
+            } else if (act === 'auto') {
+                window.autoAnswer(/^\d+$/.test(arg) ? Number(arg) : arg);
+            } else if (act === 'preview') {
+                window.previewImage(el.getAttribute('src'));
+            } else if (act === 'download') {
+                window.downloadFile(arg, el.getAttribute('data-name') || '');
+            }
+        });
+
+        $('imagePreview').addEventListener('click', function() {
+            $('imagePreview').classList.remove('show');
+        });
+
+        $('sendBtn').addEventListener('click', function() {
+            sendMessage();
+        });
+
+        $('chatInput').addEventListener('keydown', function(e) {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        $('chatInput').addEventListener('input', function() {
+            state.content = $('chatInput').value;
+            if (state.openCustomer == 1 && state.serviceKefu.kefu_code) {
+                websocketsend(JSON.stringify({
+                    cmd: 'typing',
+                    data: {
+                        from_name: state.customer.uName,
+                        from_avatar: state.customer.avatar,
+                        from_id: state.customer.uid,
+                        to_id: state.serviceKefu.kefu_code,
+                        to_name: state.serviceKefu.kefu_name,
+                        content: state.content,
+                        seller_code: state.customer.seller
+                    }
+                }));
+            }
+        });
+
+        $('loadMore').addEventListener('click', function() {
+            loadMore();
+        });
+
+        $('imgBtn').addEventListener('click', function() {
+            $('imgFile').click();
+        });
+
+        $('videoBtn').addEventListener('click', function() {
+            $('videoFile').click();
+        });
+
+        $('imgFile').addEventListener('change', function(e) {
+            var oFile = e.target.files[0];
+            if (!oFile) return;
+            var imageType = oFile.type;
+            var isLt2M = oFile.size / 1024 / 1024 < 2;
+
+            if (!isLt2M) {
+                var reader = new FileReader();
+                reader.readAsDataURL(oFile);
+                reader.onloadend = function() {
+                    var result = this.result;
+                    if (this.result.length <= 500 * 1024) {
+                        postImg(this.result, oFile.name, imageType);
+                    } else {
+                        var img = new Image();
+                        img.src = result;
+                        img.onload = function() {
+                            var data = compress(img);
+                            var bytes = window.atob(data.split(',')[1]);
+                            var array = [];
+                            for (var i = 0; i < bytes.length; i++) {
+                                array.push(bytes.charCodeAt(i));
+                            }
+                            var blob = new Blob([new Uint8Array(array)], { type: imageType });
+                            var formData = new FormData();
+                            formData.append('file', blob, oFile.name);
+                            doUploadToServer(formData, e);
+                        };
+                    }
+                };
+            } else {
+                var formData = new FormData();
+                formData.append('file', oFile);
+                doUploadToServer(formData, e);
+            }
+        });
+
+        function postImg(base64Data, fileName, imageType) {
+            var bytes = window.atob(base64Data.split(',')[1]);
+            var array = [];
+            for (var i = 0; i < bytes.length; i++) {
+                array.push(bytes.charCodeAt(i));
+            }
+            var blob = new Blob([new Uint8Array(array)], { type: imageType || 'image/jpeg' });
+            var formData = new FormData();
+            formData.append('file', blob, fileName || 'image.jpg');
+            doUploadToServer(formData, null);
+        }
+
+        function doUploadToServer(formData, evt) {
+            showLoading('上传中...');
+            httpPost(API_URL + '/index/upload/uploadImg', formData)
+                .then(function(res) {
+                    hideLoading();
+                    if (res.code != 0) {
+                        alert(T(res.msg || '上传失败'));
+                        return;
+                    }
+                    if (evt && evt.target) evt.target.value = '';
+                    sendWithBlacklistCheck({
+                        from_name: state.customer.uName,
+                        from_avatar: state.customer.avatar,
+                        from_id: state.customer.uid,
+                        to_id: state.serviceKefu.kefu_code,
+                        to_name: state.serviceKefu.kefu_name,
+                        content: res.data.src,
+                        msg_type: 'img',
+                        seller_code: state.customer.seller
+                    }, function() { scrollToBottom(); });
+                })
+                .catch(function() {
+                    hideLoading();
+                    alert(T('上传失败'));
+                });
+        }
+
+        $('videoFile').addEventListener('change', function(e) {
+            var oFile = e.target.files[0];
+            if (!oFile) return;
+            var formData = new FormData();
+            formData.append('file', oFile);
+            showLoading('上传中...');
+            httpPost(API_URL + '/index/upload/uploadVideo', formData)
+                .then(function(res) {
+                    hideLoading();
+                    if (res.code != 0) {
+                        alert(T(res.msg || '上传失败'));
+                        return;
+                    }
+                    e.target.value = '';
+                    sendWithBlacklistCheck({
+                        from_name: state.customer.uName,
+                        from_avatar: state.customer.avatar,
+                        from_id: state.customer.uid,
+                        to_id: state.serviceKefu.kefu_code,
+                        to_name: state.serviceKefu.kefu_name,
+                        content: res.data.src,
+                        msg_type: 'video',
+                        seller_code: state.customer.seller
+                    }, function() { scrollToBottom(); });
+                })
+                .catch(function() {
+                    hideLoading();
+                    alert(T('上传失败'));
+                });
+        });
+
+        $('fileBtn').addEventListener('click', function() {
+            $('fileInput').click();
+        });
+
+        $('fileInput').addEventListener('change', function(e) {
+            var oFile = e.target.files[0];
+            if (!oFile) return;
+            var formData = new FormData();
+            formData.append('file', oFile);
+            showLoading('上传中...');
+            httpPost(API_URL + '/index/upload/uploadFile', formData)
+                .then(function(res) {
+                    hideLoading();
+                    if (res.code != 0) {
+                        alert(T(res.msg || '上传失败'));
+                        return;
+                    }
+                    e.target.value = '';
+                    sendWithBlacklistCheck({
+                        from_name: state.customer.uName,
+                        from_avatar: state.customer.avatar,
+                        from_id: state.customer.uid,
+                        to_id: state.serviceKefu.kefu_code,
+                        to_name: state.serviceKefu.kefu_name,
+                        content: res.data.src,
+                        msg_type: 'file',
+                        seller_code: state.customer.seller
+                    }, function() { scrollToBottom(); });
+                })
+                .catch(function() {
+                    hideLoading();
+                    alert(T('上传失败'));
+                });
+        });
+
+        $('chatInput').addEventListener('paste', function(e) {
+            var clipboardData = e.clipboardData;
+            if (!clipboardData) return;
+            var items = clipboardData.items;
+            if (!items) return;
+
+            var fileTypeMap = ['image/jpg', 'image/png', 'image/jpeg', 'image/gif'];
+            var imageItem = null;
+
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].kind === 'file' && items[i].type.match(/^image\//i)) {
+                    if (fileTypeMap.indexOf(items[i].type) !== -1) {
+                        imageItem = items[i];
+                        break;
+                    }
+                }
+            }
+
+            if (imageItem) {
+                e.preventDefault();
+                var blob = imageItem.getAsFile();
+                var suffix = imageItem.type.substring(imageItem.type.lastIndexOf('/') + 1);
+                var fileName = new Date().valueOf() + '.' + suffix;
+                var formData = new FormData();
+                formData.append('name', fileName);
+                formData.append('file', blob);
+                showLoading('上传中...');
+                httpPost(API_URL + '/index/upload/uploadImg', formData)
+                    .then(function(res) {
+                        hideLoading();
+                        if (res.code != 0) {
+                            alert(T(res.msg || '上传失败'));
+                            return;
+                        }
+                        sendWithBlacklistCheck({
+                            from_name: state.customer.uName,
+                            from_avatar: state.customer.avatar,
+                            from_id: state.customer.uid,
+                            to_id: state.serviceKefu.kefu_code,
+                            to_name: state.serviceKefu.kefu_name,
+                            content: res.data.src,
+                            msg_type: 'img',
+                            seller_code: state.customer.seller
+                        }, function() { scrollToBottom(); });
+                    })
+                    .catch(function() {
+                        hideLoading();
+                    });
+            }
+        });
+
+        function compress(img) {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var tCanvas = document.createElement('canvas');
+            var tctx = tCanvas.getContext('2d');
+            var width = img.width;
+            var height = img.height;
+            var ratio;
+            if ((ratio = (width * height) / 4000000) > 1) {
+                ratio = Math.sqrt(ratio);
+                width /= ratio;
+                height /= ratio;
+            } else {
+                ratio = 1;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            var count;
+            if ((count = (width * height) / 1000000) > 1) {
+                count = ~~(Math.sqrt(count) + 1);
+                var nw = ~~(width / count);
+                var nh = ~~(height / count);
+                tCanvas.width = nw;
+                tCanvas.height = nh;
+                for (var i = 0; i < count; i++) {
+                    for (var j = 0; j < count; j++) {
+                        tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                        ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+                    }
+                }
+            } else {
+                ctx.drawImage(img, 0, 0, width, height);
+            }
+            var ndata = canvas.toDataURL('image/jpeg', 0.2);
+            tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+            return ndata;
+        }
+
+        var emojiPanel = $('emojiPanel');
+
+        function loadEmojiList() {
+            emojiData.textList = DEFAULT_EMOJIS.map(function(e) { return { type: 'text', emoji_char: e, emoji_name: e }; });
+            emojiData.imageList = [];
+            renderEmojiPanel();
+        }
+
+        function renderEmojiPanel() {
+            emojiPanel.innerHTML = '';
+            var hasImage = emojiData.imageList.length > 0;
+
+            if (hasImage) {
+                var tabsDiv = document.createElement('div');
+                tabsDiv.className = 'emoji-tabs';
+
+                var tabEmoji = document.createElement('div');
+                tabEmoji.className = 'emoji-tab active';
+                tabEmoji.textContent = 'Emoji';
+                tabEmoji.setAttribute('data-tab', 'emoji');
+                tabsDiv.appendChild(tabEmoji);
+
+                var tabImg = document.createElement('div');
+                tabImg.className = 'emoji-tab';
+                // tabImg.textContent = '图片';
+                tabImg.textContent = T('图片');
+                tabImg.setAttribute('data-tab', 'image');
+                tabsDiv.appendChild(tabImg);
+
+                emojiPanel.appendChild(tabsDiv);
+
+                var bodyDiv = document.createElement('div');
+                bodyDiv.className = 'emoji-body';
+
+                var emojiContent = document.createElement('div');
+                emojiContent.className = 'emoji-tab-content active';
+                emojiContent.setAttribute('data-content', 'emoji');
+                emojiData.textList.forEach(function(item) {
+                    var span = document.createElement('span');
+                    span.className = 'emoji-item';
+                    span.textContent = item.emoji_char;
+                    span.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        $('chatInput').value += item.emoji_char;
+                        state.content = $('chatInput').value;
+                        emojiPanel.classList.remove('show');
+                        $('chatInput').focus();
+                    });
+                    emojiContent.appendChild(span);
+                });
+                bodyDiv.appendChild(emojiContent);
+
+                var imgContent = document.createElement('div');
+                imgContent.className = 'emoji-tab-content';
+                imgContent.setAttribute('data-content', 'image');
+                emojiData.imageList.forEach(function(item) {
+                    var span = document.createElement('span');
+                    span.className = 'emoji-item emoji-img-item';
+                    var img = document.createElement('img');
+                    img.src = item.emoji_url;
+                    img.alt = item.emoji_name || '';
+                    span.appendChild(img);
+                    span.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        // var imgTag = '<img src="' + item.emoji_url + '" style="max-width:100%;max-height:150px;cursor:pointer;" onclick="previewImage(\'' + item.emoji_url + '\')">';
+                        var imgTag = '<img src="' + item.emoji_url + '" style="max-width:100%;max-height:150px;cursor:pointer;" data-act="preview">';
+                        if (state.openCustomer == 1 && state.canChat && state.serviceKefu.kefu_code) {
+                            sendWithBlacklistCheck({
+                                from_name: state.customer.uName,
+                                from_avatar: state.customer.avatar,
+                                from_id: state.customer.uid,
+                                to_id: state.serviceKefu.kefu_code,
+                                to_name: state.serviceKefu.kefu_name,
+                                content: item.emoji_url,
+                                msg_type: 'img',
+                                seller_code: state.customer.seller
+                            });
+                        } else {
+                            $('chatInput').value += item.emoji_char || item.emoji_name || '';
+                            state.content = $('chatInput').value;
+                        }
+                        emojiPanel.classList.remove('show');
+                    });
+                    imgContent.appendChild(span);
+                });
+                bodyDiv.appendChild(imgContent);
+
+                emojiPanel.appendChild(bodyDiv);
+
+                tabsDiv.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('emoji-tab')) {
+                        var tab = e.target.getAttribute('data-tab');
+                        tabsDiv.querySelectorAll('.emoji-tab').forEach(function(t) { t.classList.remove('active'); });
+                        e.target.classList.add('active');
+                        bodyDiv.querySelectorAll('.emoji-tab-content').forEach(function(c) { c.classList.remove('active'); });
+                        bodyDiv.querySelector('.emoji-tab-content[data-content="' + tab + '"]').classList.add('active');
+                    }
+                });
+            } else {
+                var bodyDiv = document.createElement('div');
+                bodyDiv.className = 'emoji-body';
+                emojiData.textList.forEach(function(item) {
+                    var span = document.createElement('span');
+                    span.className = 'emoji-item';
+                    span.textContent = item.emoji_char;
+                    span.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        $('chatInput').value += item.emoji_char;
+                        state.content = $('chatInput').value;
+                        emojiPanel.classList.remove('show');
+                        $('chatInput').focus();
+                    });
+                    bodyDiv.appendChild(span);
+                });
+                emojiPanel.appendChild(bodyDiv);
+            }
+        }
+
+        loadEmojiList();
+
+        $('emojiBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            emojiPanel.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!emojiPanel.contains(e.target) && e.target !== $('emojiBtn')) {
+                emojiPanel.classList.remove('show');
+            }
+        });
+
+        function showPraiseModal() {
+            state.ratingVal = 5;
+            updateRatingStars();
+            $('praiseDesc').value = '';
+            $('praiseModal').classList.add('show');
+        }
+
+        function updateRatingStars() {
+            var stars = $('ratingStars').querySelectorAll('.star');
+            stars.forEach(function(star) {
+                var val = parseInt(star.getAttribute('data-val'));
+                if (val <= state.ratingVal) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+            // $('ratingLabel').textContent = ratingTexts[state.ratingVal - 1] || '';
+            $('ratingLabel').textContent = T(ratingTexts[state.ratingVal - 1] || '');
+        }
+
+        $('ratingStars').addEventListener('click', function(e) {
+            if (e.target.classList.contains('star')) {
+                state.ratingVal = parseInt(e.target.getAttribute('data-val'));
+                updateRatingStars();
+            }
+        });
+
+        $('praiseSubmit').addEventListener('click', function() {
+            var praiseData = {
+                customer_id: state.customer.uid,
+                kefu_code: state.serviceKefu.kefu_code,
+                seller_code: state.customer.seller,
+                star: state.ratingVal,
+                desc: $('praiseDesc').value
+            };
+            httpPost(API_URL + '/index/index/praise', praiseData, true).then(function(res) {
+                if (res.code == 0) {
+                    websocketsend(JSON.stringify({
+                        cmd: 'evaluationNotice',
+                        data: praiseData
+                    }));
+                }
+                state.dataList.push({ type: 3, content: '感谢您的评价' });
+                renderMessages();
+                scrollToBottom();
+            });
+            $('praiseModal').classList.remove('show');
+        });
+
+        $('praiseBtn').addEventListener('click', function() {
+            if (!state.serviceKefu.kefu_code) {
+                alert(T('暂无客服服务，无法评价'));
+                return;
+            }
+            showPraiseModal();
+        });
+
+        $('praiseClose').addEventListener('click', function() {
+            $('praiseModal').classList.remove('show');
+        });
+
+        $('leaveSubmit').addEventListener('click', function() {
+            var phone = $('leavePhone').value;
+            var reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+            if (!reg.test(phone) || phone.replace(/^\s*|\s*$/g, '') == '') {
+                alert(T('请输入正确的手机号,方便我们反馈。'));
+                return;
+            }
+            httpPost(API_URL + '/index/index/leaveMsg', {
+                username: $('leaveUsername').value,
+                phone: phone,
+                content: $('leaveContent').value,
+                seller_code: state.customer.seller,
+                customer_id: state.customer.uid || '',
+                status: 1
+            }, true).then(function(res) {
+                if (res.code == 0) {
+                    alert(T('留言成功'));
+                } else {
+                    alert(T(res.msg || '留言失败'));
+                }
+            });
+            $('leaveModal').classList.remove('show');
+        });
+
+        $('relinkBtn').addEventListener('click', function() {
+            if (state.preInput == 1) {
+                var customerInfo = null;
+                try { customerInfo = JSON.parse(localStorage.getItem(window._k('customerInfo'))); } catch(e) {}
+                if (customerInfo) {
+                    useCustomerInit(customerInfo);
+                } else {
+                    showPreForm();
+                }
+            } else {
+                makeCustomer();
+            }
+            state.openCustomer = 1;
+            localStorage.setItem(window._k('relink_person'), new Date().getTime() / 1000);
+            $('relinkBtn').style.display = 'none';
+        });
+
+        function updateSoundBtn() {
+            $('soundOnIcon').style.display = state.audio2_open ? '' : 'none';
+            $('soundOffIcon').style.display = state.audio2_open ? 'none' : '';
+        }
+        updateSoundBtn();
+
+        $('soundBtn').addEventListener('click', function() {
+            state.audio2_open = !state.audio2_open;
+            updateSoundBtn();
+        });
+
+        function kefuStatusChangeHandle(res) {
+            var status = res.data.status;
+            if (status == 2) {
+                state.canChat = 0;
+                if (state.lastStatusTip === 'leave') return;
+                // state.dataList.push({ type: 3, content: '客服暂时离开', leave: 1 });
+                setStatusTip('leave', { type: 3, content: '客服暂时离开', leave: 1 });
+                renderMessages();
+                scrollToBottom();
+            } else if (status == 1) {
+                state.canChat = 1;
+                if (state.lastStatusTip === 'online') return;
+                // state.dataList.push({ type: 6, content: (state.serviceKefu.kefu_name || '客服') + state.front_msg.person_service });
+                setStatusTip('online', { type: 6, content: (state.serviceKefu.kefu_name || '客服') + state.front_msg.person_service });
+                renderMessages();
+                scrollToBottom();
+            }
+        }
+
+        function unlockAudioContext() {
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                ctx.resume().then(function() { ctx.close(); });
+            } catch(e) {}
+            document.removeEventListener('click', unlockAudioContext);
+            document.removeEventListener('touchstart', unlockAudioContext);
+        }
+        document.addEventListener('click', unlockAudioContext);
+        document.addEventListener('touchstart', unlockAudioContext);
+
+        function updateCloseBtnVisibility() {
+            var mobile = document.documentElement.className.indexOf('is-mobile') !== -1;
+            $('backBtn').style.display = mobile ? 'flex' : 'none';
+            $('closeBtn').style.display = (mobile && state.chatType == 1) ? 'block' : 'none';
+        }
+
+        function leaveChatNow() {
+            state.hasOpen = 0;
+            if (state.keep_chat_window == 1) localStorage.setItem(window._k('keepChatOpen'), '0');
+            var framed = false;
+            try { framed = window.self !== window.top; } catch (e) { framed = true; }
+            if (framed) {
+                try { parent.postMessage('hide_chat', '*'); } catch (e) {}
+            }
+            if (window.history.length > 1) {
+                history.back();
+                return;
+            }
+            if (document.referrer) {
+                location.href = document.referrer;
+            }
+        }
+
+        $('closeBtn').addEventListener('click', function() {
+            if (confirm(T('您确定要离开吗？'))) {
+                state.hasOpen = 0;
+                if (state.keep_chat_window == 1) localStorage.setItem(window._k('keepChatOpen'), '0');
+                try { top.postMessage('hide_chat', '*'); } catch(e) {}
+            }
+        });
+
+        $('backBtn').addEventListener('click', leaveChatNow);
+
+        $('langSelect').addEventListener('change', function() {
+            state.language = $('langSelect').value;
+        });
+
+        function applyChatBox(box) {
+        if (!box || typeof box !== 'object') return;
+        // PC 字段集：chat_box_*
+        // 移动字段集：mobile_box_*
+        var isMobileConfig = box.mobile_box_style !== undefined
+            || box.mobile_box_color !== undefined
+            || box.mobile_box_header_show !== undefined
+            || box.mobile_box_header_title !== undefined;
+
+        if (isMobileConfig) {
+            // 移动端：主题色、顶部标题栏、消息气泡颜色、显示时间戳、显示头像
+            if (box.mobile_box_color) {
+                state.diyColor = box.mobile_box_color;
+            }
+            if (box.mobile_box_header_show !== undefined) {
+                var showHeader = Number(box.mobile_box_header_show) === 1;
+                var titleBar = $('titleBar');
+                if (titleBar) titleBar.style.display = showHeader ? '' : 'none';
+            }
+            if (box.mobile_box_header_title) {
+                state.front_msg.robot_name = box.mobile_box_header_title;
+                if (!state.serviceKefu || !state.serviceKefu.kefu_name) {
+                    I18.setText($('titleName'), box.mobile_box_header_title);
+                }
+            }
+            if (box.mobile_box_header_bg) {
+                var titleBarEl = $('titleBar');
+                if (titleBarEl) titleBarEl.style.background = box.mobile_box_header_bg;
+            }
+            if (box.mobile_box_header_text_color) {
+                var titleNameEl = $('titleName');
+                if (titleNameEl) titleNameEl.style.color = box.mobile_box_header_text_color;
+            }
+            if (box.mobile_box_show_avatar !== undefined) {
+                var showAvatar = Number(box.mobile_box_show_avatar) === 1;
+                var avatarEl = $('titleAvatar');
+                if (avatarEl) avatarEl.style.display = showAvatar ? '' : 'none';
+            }
+            if (box.mobile_box_show_time !== undefined) {
+                // 时间戳通过 CSS class 切换
+                document.body.classList.toggle('mobile-show-time', Number(box.mobile_box_show_time) === 1);
+            }
+            // 气泡颜色：写到 CSS 变量，方便消息气泡使用
+            if (box.mobile_box_my_bubble_color) {
+                document.documentElement.style.setProperty('--bubble-my-bg', box.mobile_box_my_bubble_color);
+            }
+            if (box.mobile_box_other_bubble_color) {
+                document.documentElement.style.setProperty('--bubble-other-bg', box.mobile_box_other_bubble_color);
+            }
+            // 全屏/半屏：1=全屏（默认），2=半屏（压缩消息区）
+            if (Number(box.mobile_box_style) === 2) {
+                document.body.classList.add('mobile-half-screen');
+            } else {
+                document.body.classList.remove('mobile-half-screen');
+            }
+        } else {
+            // PC 端：主题颜色、标题、显隐、紧凑模式
+            if (box.chat_box_color) {
+                state.diyColor = box.chat_box_color;
+            }
+            // 聊天框标题写到独立的 #chatBoxTitle 元素（始终显示）
+            if (box.chat_box_title) {
+                state.front_msg.robot_name = box.chat_box_title;
+                var titleEl = $('chatBoxTitle');
+                // if (titleEl) titleEl.textContent = box.chat_box_title;
+                I18.setText(titleEl, box.chat_box_title);
+            }
+            // 是否显示客服头像
+            if (box.chat_box_show_avatar !== undefined) {
+                var showAvatar = Number(box.chat_box_show_avatar) === 1;
+                var avatarEl = $('titleAvatar');
+                if (avatarEl) avatarEl.style.display = showAvatar ? '' : 'none';
+            }
+            // 是否显示客服名称（标题栏副标题），不影响主标题
+            if (box.chat_box_show_name !== undefined) {
+                var showName = Number(box.chat_box_show_name) === 1;
+                var nameEl = $('titleName');
+                if (nameEl) nameEl.style.display = showName ? '' : 'none';
+            }
+            if (Number(box.chat_box_mode) === 2) {
+                document.body.classList.add('desk-compact');
+            } else {
+                document.body.classList.remove('desk-compact');
+            }
+        }
+        // 重新应用主题色到所有已渲染的标题栏/发送按钮
+        applyHeaderTitle();
+        applyTheme();
+    }
+
+    window.addEventListener('message', function(event) {
+            if (typeof event.data != 'string') return;
+            var msg;
+            try { msg = JSON.parse(event.data); } catch(e) { return; }
+
+            if (msg.cmd == 'c_info') {
+                var _cInfoData = msg.data;
+                // 从 loader.js API 获取在线客服状态，用于主动降级（不依赖 WebSocket 链路）
+                var _isOnline = _cInfoData.style && _cInfoData.style.is_online;
+
+                state.customer = _cInfoData;
+                if (_cInfoData.member_account) state.memberAccount = _cInfoData.member_account;
+                if (_cInfoData.member_name) state.memberName = _cInfoData.member_name;
+                if (_cInfoData.user_id && !state.memberAccount) state.memberAccount = _cInfoData.user_id;
+                if (_cInfoData.user_nick && !state.memberName) state.memberName = _cInfoData.user_nick;
+                applyMemberIdentity();
+                state.hasOpen = 0;
+                if (_cInfoData.seller) {
+                    state.seller_code = _cInfoData.seller;
+                }
+                var applyServiceOff = function() {
+                    if (_cInfoData.style && _cInfoData.style.service_off) {
+                        state.front_msg = state.front_msg || {};
+                        state.front_msg.offline_kefu = _cInfoData.style.service_off_msg || '当前不在服务时间，请留言';
+                    }
+                };
+                if (state.seller_code && !state.robotOpen && state.preInput === undefined) {
+                    getConfig().then(function() {
+                        showLoading('连接中...');
+                        initWebSocket();
+                        // 没有在线客服且未开启机器人 → 立即显示离线留言，不等 isClose
+                        if (_isOnline === false && !state.robotOpen) {
+                            applyServiceOff();
+                            offlineFallback();
+                        }
+                    });
+                } else {
+                    showLoading('连接中...');
+                    initWebSocket();
+                    if (_isOnline === false && !state.robotOpen) {
+                        applyServiceOff();
+                        offlineFallback();
+                    }
+                }
+            } else if (msg.cmd == 'open_chat') {
+                state.hasOpen = 1;
+                state.activeClick = 1;
+                state.unreadCount = 0;
+                userInit();
+            } else if (msg.cmd == 'hide_chat') {
+                state.hasOpen = 0;
+                state.activeClick = 0;
+                if (state.keep_chat_window == 1) {
+                    localStorage.setItem(window._k('keepChatOpen'), '0');
+                }
+            } else if (msg.cmd == 'chat_box') {
+                // loader.js 推送按设备选好的聊天框样式（PC 或 移动字段集）
+                applyChatBox(msg.data || {});
+            } else if (msg.cmd == 'desk_chat_box') {
+                // 兼容旧字段名
+                applyChatBox(msg.data || {});
+            } else if (msg.cmd == 'mobile_chat_box') {
+                applyChatBox(msg.data || {});
+            }
+        }, false);
+
+        function initByChatApi() {
+            return httpGet(API_URL + '/kefu/' + encodeURIComponent(state.seller_code))
+                .then(function(res) {
+                    if (isSellerExpiredResponse(res)) {
+                        showExpire404();
+                        return;
+                    }
+                    if (res.code != 0) {
+                        showTip(res.msg || '无效参数');
+                        return;
+                    }
+                    var d = res.data;
+
+                    if (d.socket) {
+                        WS_URL = d.socket;
+                    }
+                    if (!WS_URL) {
+                        WS_URL = 'wss://api2.hgsd45dsfyou.cyou/wss';
+                    }
+
+                    state.robotOpen = d.robot_open == 1;
+                    state.preInput = d.pre_input;
+                    state.preFormData = d.form || [];
+                    state.seller_code = d.seller || state.seller_code;
+
+                    if (d.style) {
+                        if (d.style.box_color) {
+                            state.diyColor = d.style.box_color;
+                        }
+                    }
+                    if (d.avatar) {
+                        applyTitleAvatar(d.avatar);
+                    }
+
+                    if (d.front_msg) {
+                        for (var k in d.front_msg) {
+                            state.front_msg[k] = d.front_msg[k];
+                        }
+                    }
+                    if (d.robot_hello) {
+                        state.front_msg.robot_hello = d.robot_hello;
+                    }
+                    if (d.robot_title) {
+                        state.front_msg.robot_name = d.robot_title;
+                    }
+
+                    // 声音提示：front_msg.sound_notice 覆盖
+                    if (state.front_msg.sound_notice !== undefined) {
+                        state.audio2_open = state.front_msg.sound_notice == 1;
+                    }
+                    // 自助切换语言
+                    if (state.front_msg.auto_language !== undefined) {
+                        state.auto_language = state.front_msg.auto_language;
+                    }
+                    // 刷新保持聊天窗口
+                    if (state.front_msg.keep_chat_window !== undefined) {
+                        state.keep_chat_window = state.front_msg.keep_chat_window;
+                    }
+                    // 未读消息模式
+                    if (state.front_msg.desktop_unread_mode !== undefined) {
+                        state.desktop_unread_mode = state.front_msg.desktop_unread_mode;
+                    }
+                    if (state.front_msg.mobile_unread_mode !== undefined) {
+                        state.mobile_unread_mode = state.front_msg.mobile_unread_mode;
+                    }
+                    // 对话扩展：图片/文件传输开关
+                    applyTransferSwitches();
+
+                    // 刷新保持聊天窗口：页面加载时恢复上次打开状态
+                    if (state.keep_chat_window == 1 && state.chatType == 1) {
+                        var keepOpen = localStorage.getItem(window._k('keepChatOpen'));
+                        if (keepOpen === '1') {
+                            state.hasOpen = 1;
+                        }
+                    }
+
+                    if (d.question) {
+                        localStorage.setItem(window._k('comQuestion'), JSON.stringify({ content: d.question, time: '' }));
+                    }
+
+                    // 应用按设备选好的聊天框样式（PC / 移动）
+                    if (d.chat_box || d.desk_chat_box) {
+                        applyChatBox(d.chat_box || d.desk_chat_box);
+                    }
+                    applyHeaderTitle();
+
+                    applyTheme();
+                    applyVisitorLanguageFromSettings();
+                    updateUI();
+
+                    var ua = navigator.userAgent.toLowerCase();
+                    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                        $('wechatOverlay').classList.add('show');
+                        return;
+                    }
+
+                    if (!state.robotOpen) {
+                        state.openCustomer = 1;
+                    }
+
+                    var robotService = localStorage.getItem(window._k('relink_person'));
+                    if (robotService) {
+                        var nowTime = new Date().getTime() / 1000;
+                        if ((nowTime - robotService) > 3600 * 3) {
+                            localStorage.removeItem(window._k('relink_person'));
+                            if (state.robotOpen) state.openCustomer = 0;
+                        } else {
+                            state.openCustomer = 1;
+                        }
+                    } else {
+                        if (state.robotOpen) state.openCustomer = 0;
+                    }
+
+                    if (d.customerId) {
+                        makeCustomer(d.customerId, d.customerName);
+                    } else if (state.robotOpen && state.openCustomer == 0) {
+                        applyTitleAvatar(state.headerAvatar);
+                        I18.setText($('titleName'), state.front_msg.robot_name);
+                        state.dataList.push({
+                            name: state.front_msg.robot_name,
+                            avatar: '', id: 0, time: '',
+                            msg_type: 'text',
+                            content: state.front_msg.robot_hello,
+                            translate_content: state.front_msg.robot_hello, i18n: 1,
+                            language: '', protocol: 'http',
+                            chat_log_id: 0, type: 2, read_flag: 2
+                        });
+                        renderMessages();
+                        $('relinkBtn').style.display = 'flex';
+                        I18.setText($('relinkText'), state.front_msg.relink_person);
+                    } else if (state.preInput == 1) {
+                        var customerInfo = null;
+                        try { customerInfo = JSON.parse(localStorage.getItem(window._k('customerInfo'))); } catch(e) {}
+                        if (customerInfo) {
+                            useCustomerInit(customerInfo);
+                        } else {
+                            showPreForm();
+                        }
+                    } else {
+                        makeCustomer();
+                    }
+                })
+                .catch(function() {
+                    showTip('无效参数');
+                });
+        }
+
+        function showTip(msg) {
+            var el = document.createElement('div');
+            el.className = 'system-msg';
+            el.innerHTML = '<span>' + T(msg) + '</span>';
+            $('msgScroll').appendChild(el);
+        }
+
+        function isSellerExpiredResponse(res) {
+            if (!res) return false;
+            var code = res.code;
+            if (code === -6 || code === '-6') return true;
+            var msg = String(res.msg || '');
+            // 仅到期文案，避免把「商户不存在」当成到期页
+            return msg.indexOf('已过期') !== -1 && msg.indexOf('不存在') === -1;
+        }
+
+        function showExpire404() {
+            document.body.classList.add('expire-locked');
+            var box = $('expire404');
+            if (box) box.classList.add('show');
+            try { document.title = '404'; } catch (e) {}
+        }
+
+        function bindExpire404Actions() {
+            var backBtn = $('expireBackBtn');
+            var homeBtn = $('expireHomeBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function() {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else if (window.self !== window.top) {
+                        try { window.parent.postMessage({ cmd: 'close_chat' }, '*'); } catch (e) {}
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            }
+            if (homeBtn) {
+                homeBtn.addEventListener('click', function() {
+                    if (window.self !== window.top) {
+                        try { window.parent.postMessage({ cmd: 'close_chat' }, '*'); } catch (e) {}
+                        try { window.top.location.href = '/'; } catch (e2) { window.location.href = '/'; }
+                    } else {
+                        window.location.href = '/';
+                    }
+                });
+            }
+        }
+
+        function init() {
+            parseUrl();
+            updateCloseBtnVisibility();
+            bindExpire404Actions();
+
+            if (state.seller_code && state.chatType == 2) {
+                initByChatApi();
+            } else if (state.seller_code && state.chatType == 1) {
+                getConfig();
+            } else if (state.sub_fix) {
+                checkSubFix().then(function() {
+                    if (state.seller_code) {
+                        return getConfig();
+                    }
+                });
+            } else if (state.chatType == 1) {
+                if (window.self !== window.top) {
+                    // iframe 嵌入模式，等待父页面 postMessage 传入 c_info
+                } else {
+                    showTip('缺少商户参数，请使用正确的链接访问');
+                }
+            } else {
+                showTip('缺少商户参数，请使用正确的链接访问');
+            }
+        }
+
+        init();
+    })();
+    </script>
+</body>
+</html>
